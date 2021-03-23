@@ -1,2 +1,3 @@
-# react_lecture
-react_lecture
+# 잔디가 안심어지는 repository
+
+ 
