@@ -1,17 +1,3 @@
----
-layout: post
-title: boj 1029 해설
-categories: [Baekjoon]
-tags: [백준 1029, boj 1029]
----
-
-# 백준 1029번
-
-## dp, Bitmasking
-
-bottom-up방식 path로 방문 확인하고 f는 현재 위치 층으로 표현했다. (컨닝 문제 풀다가 와서... 코드 재활용) p는 price로 a[f][i] 값이 p보다 크거나 같아야한다!
-
-```python
 from sys import stdin, setrecursionlimit
 
 setrecursionlimit(10**6)
@@ -38,4 +24,3 @@ def dfs(f,p,path):
             d[f][p][path]=max(d[f][p][path],1+dfs(i,a[f][i],path|(1<<i)))
     return d[f][p][path]
 print(dfs(0,0,1))        
-```
