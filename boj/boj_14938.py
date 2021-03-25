@@ -1,18 +1,3 @@
----
-layout: post
-title: boj 14938 해설
-categories: [Baekjoon]
-tags: [백준 14938, boj 14938]
----
-
-백준 14938번
-======
-
-floid warshall
-진짜 문제 안풀린다. 와샬 알고리즘 쓸 때 k i j 순서 주의하자...
------
-
-```python
 from sys import stdin
 from heapq import *
 
@@ -46,4 +31,3 @@ res = 0
 for i in range(n):
     res = max(go(i),res)
 print(res)
-```
