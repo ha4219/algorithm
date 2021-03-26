@@ -1,49 +1,40 @@
 ---
 layout: post
-title: boj 14938 해설
+title: boj 3056 해설
 categories: [Baekjoon]
-tags: [백준 14938, boj 14938]
+tags: [백준 3056, boj 3056]
 ---
 
-백준 14938번
+백준 3056번
 ======
 
-floid warshall
-진짜 문제 안풀린다. 와샬 알고리즘 쓸 때 k i j 순서 주의하자...
+bitmasking, dp
+
+cur은 현재 매칭할 요원 index이고 path는 매칭된 요원들을 나타낸다. 여기 문제 핵심은 모든 방문을 끝내면 1을 반환한다. 왜냐하면 확률을 계산하는게 곱연산이기에 dfs()*a 연산에 영향을 안주기 위해 1을 반환한다. 
 -----
 
 ```python
 from sys import stdin
-from heapq import *
+
 
 input = stdin.readline
-maxsize = 10**6
-n,m,r=map(int,input().split())
-d = [[maxsize]*n for _ in range(n)]
-t = list(map(int,input().split()))
 
-for i in range(r):
-    a,b,c=map(int,input().split())
-    d[a-1][b-1] = c
-    d[b-1][a-1] = c
+n = int(input())
+a = [list(map(int, input().split())) for _ in range(n)]
+d = [[-1] * (1<<n) for _ in range(n)]
 
-for k in range(n):
+all_path = (1<<n)-1
+def dfs(cur, path):
+    if path==all_path:
+        return 1
+    if d[cur][path]!=-1:
+        return d[cur][path]
+    d[cur][path] = 0
     for i in range(n):
-        for j in range(n):
-            d[i][j] = min(d[i][k]+d[k][j],d[i][j])
-
-
-def go(start):
-    res = t[start]
-    for i in range(n):
-        if i==start:
+        if path&(1<<i):
             continue
-        if m>=d[start][i]:
-            res += t[i]
-    return res
+        d[cur][path] = max(d[cur][path], dfs(cur+1,path|(1<<i))*(a[cur][i])/100)
+    return d[cur][path]
 
-res = 0
-for i in range(n):
-    res = max(go(i),res)
-print(res)
+print(dfs(0,0)*100)
 ```

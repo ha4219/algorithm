@@ -1,4 +1,3 @@
-# 잔디가 안심어지는 repository
+# 잔디가 심어지는 repository
 
  
-can do?
