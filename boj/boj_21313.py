@@ -1,20 +1,3 @@
----
-layout: post
-title: boj 21312 해설
-categories: [Baekjoon]
-tags: [백준 21313, boj 21313]
----
-
-백준 21313번
-======
-
-??
-
------
-무슨 문제인지 모르겠지만 4<=n<=1000이고 n이 홀수일때는 1, 2, 1, 2... 123 이런식으로 가고 짝수일 때는 1, 2, 1, 2... 이런식으로 간다.
-
-
-```python
 from sys import stdin
 
 
@@ -40,5 +23,3 @@ else:
         else:
             print(' 1',end='')
     print()
-
-```
