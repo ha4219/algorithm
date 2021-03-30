@@ -1,44 +1,64 @@
 ---
 layout: post
-title: boj 21312 해설
+title: boj 21314 해설
 categories: [Baekjoon]
-tags: [백준 21313, boj 21313]
+tags: [백준 21314, boj 21314]
 ---
 
-백준 21313번
+백준 21314번
 ======
 
-??
+그리디
 
 -----
-무슨 문제인지 모르겠지만 4<=n<=1000이고 n이 홀수일때는 1, 2, 1, 2... 123 이런식으로 가고 짝수일 때는 1, 2, 1, 2... 이런식으로 간다.
+문자열 길이가 3000이기에 setrecursionlimit설정 필수!
 
 
 ```python
-from sys import stdin
+from sys import stdin,setrecursionlimit
 
 
+setrecursionlimit(10**6)
 input = stdin.readline
 
-n = int(input())
 
+s = input().strip()
 
-if n%2:
-    n-=3
-    print(1,end='')
-    for i in range(1,n):
-        if i%2:
-            print(' 2',end='')
+def fmax(s):
+    sl = len(s)
+    m = 0
+    k = 0
+    for i in range(sl):
+        if s[i]=='M':
+            m+=1
         else:
-            print(' 1',end='')
-    print(' 1 2 3')
-else:
-    print(1,end='')
-    for i in range(1,n):
-        if i%2:
-            print(' 2',end='')
-        else:
-            print(' 1',end='')
-    print()
+            k+=1
+            break
+    if k==0:
+        return '1'*m
+    return '5'+'0'*m+fmax(s[i+1:])
 
+def fmin(s):
+    sl = len(s)
+    res = ''
+    m = 0
+    k = 0
+    for i in range(sl):
+        if s[i]=='M':
+            m+=1
+        else:
+            if m>1:
+                res += '1'+'0'*(m-1)
+                m = 0
+            if m==1:
+                res += '1'
+                m = 0
+            res += '5'
+    if m:
+        res += '1'+'0'*(m-1)
+    return res
+            
+
+print(fmax(s))
+print(fmin(s))
 ```
