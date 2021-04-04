@@ -24,7 +24,7 @@ def dfs(r,path):
         return d[r][path]
     d[r][path] = 0
     for i in range(n):
-        if ((path&(1<<i))==0) and ((p[i]&path) or p[i]==0):
+        if ((path&(1<<i))==0) and ((p[i]&path) == p[i]):
             d[r][path] = max(d[r][path],dfs(r+1,path|(1<<i))+a[i][1]*(r+1))
     return d[r][path]
 
