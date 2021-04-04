@@ -1,35 +1,23 @@
 ---
 layout: post
-title: boj 21321 해설
+title: boj 10937 해설
 categories: [Baekjoon]
-tags: [백준 21321, boj 21321]
+tags: [백준 10937, boj 10937]
 ---
 
-백준 21321번
+[백준 10937번](https://www.acmicpc.net/problem/10937)
 ======
 
 dp, bitmasking
 
 -----
-dp, 비트 마스킹 문제이다. 이전에 풀었던 문제와 다른 점은 특정 시간에 겹칠 경우 경로가 짧은 경로 순으로 점수를 획득할 수 있다. 따라서 이에 대한 연산이 따로 필요하다.
+기존 문제와 똑같다. 여기서 path 지정 방법은 현 위치부터 n칸 뒤 위치까지 잡았다. 그리고 x값에서 할 수 있는 행동은 아래와 같다.
+1. 오른쪽으로 묶는다.
+2. 아래로 묶는다.
+3. 아예 안묶다.
 
-나는 p라는 배열에 각 경로 별 필요한 경로를 담았다. 
-```python
-for i in range(n):
-    for j in range(i+1,n):
-        if a[j][0]%a[i][0]==0:
-            p[j] |= (1<<i)
-```
-i번째 경로와 j번째 경로가 겹칠 경우 p[j]에 i번째 비트를 켰다. 
+아래는 코드다!
 
-```python
-if ((path&(1<<i))==0) and ((p[i]&path) == p[i]):
-    // DO
-```
-저장한 p값은 탐색 중 가지고 있는 path와 비교해 현재 경로를 접근할 수 있는지 확인할 수 있게 했다.
-
-마지막으로 필요한 경로를 설정하는 시간복잡도 O(n^2)이다.
-n이 16이하 자연수이기에 해결 가능하다.
 
 ```python
 from sys import stdin
@@ -39,28 +27,41 @@ input = stdin.readline
 
 
 n = int(input())
-a = [list(map(int,input().split())) for _ in range(n)]
-d = [[-1]*(1<<n) for _ in range(n)]
-p = [0] * n
+a0 = [input().strip() for _ in range(n)]
+a = []
+s = [[100,70,40,0],[70,50,30,0],[40,30,20,0],[0,0,0,0]]
+d = [[-1]*(1<<(n+1)) for _ in range(n*n)]
 
 for i in range(n):
-    for j in range(i+1,n):
-        if a[j][0]%a[i][0]==0:
-            p[j] |= (1<<i)
+    for j in range(n):
+        if a0[i][j]=='A':
+            a.append(0)
+        elif a0[i][j]=='B':
+            a.append(1)
+        elif a0[i][j]=='C':
+            a.append(2)
+        else:
+            a.append(3)
 
-# for i in range(n):
-#     print(i,(bin(p[i])[2:]).zfill(n))
-
-def dfs(r,path):
-    if r==n:
+def dfs(x, path):
+    if x==n*n:
         return 0
-    if d[r][path]!=-1:
-        return d[r][path]
-    d[r][path] = 0
-    for i in range(n):
-        if ((path&(1<<i))==0) and ((p[i]&path) == p[i]):
-            d[r][path] = max(d[r][path],dfs(r+1,path|(1<<i))+a[i][1]*(r+1))
-    return d[r][path]
+    if d[x][path]!=-1:
+        return d[x][path]
+    # 현 위치에 체크
+    if path&1==1:
+        d[x][path]=dfs(x+1,path>>1)
+        return d[x][path]
+    d[x][path]=0
+    # right
+    if x%n!=n-1 and path&2==0:
+        d[x][path]=max(d[x][path],dfs(x+1,(path>>1)|1)+s[a[x]][a[x+1]])
+    # down
+    if x//n<n-1 and path&(1<<n)==0:
+        d[x][path]=max(d[x][path],dfs(x+1,(path|(1<<n))>>1)+s[a[x]][a[x+n]])
+    # none
+    d[x][path]=max(d[x][path],dfs(x+1,path>>1))
+    return d[x][path]
 
 print(dfs(0,0))
 ```
