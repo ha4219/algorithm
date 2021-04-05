@@ -1,22 +1,3 @@
----
-layout: post
-title: boj 6569 해설
-categories: [Baekjoon]
-tags: [백준 6569, boj 6569]
----
-
-[백준 6569번](https://www.acmicpc.net/problem/6569)
-======
-
-dp, bitmasking
-
------
-격자 채우기 문제 path에 이후 들어갈 격자 값들을 저장한다!
-
-풀이를 쓸려했는데
-jh05013님 코드를 보고 의욕이 사라졌다.
-
-```python
 from sys import stdin
 
 
@@ -48,4 +29,3 @@ while n!=0 and m!=0:
     d = [[-1]*(1<<(m+2)) for _ in range(n*m)]
     print(dfs(0,0))
     n,m=map(int,input().split())
-```
