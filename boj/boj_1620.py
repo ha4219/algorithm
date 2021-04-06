@@ -1,19 +1,3 @@
----
-layout: post
-title: boj 1620 해설
-categories: [Baekjoon]
-tags: [백준 1620, boj 1620]
----
-
-[백준 1620번](https://www.acmicpc.net/problem/1620)
-======
-
-set
-
------
-그냥 집합
-
-```python
 from sys import stdin
 
 
@@ -34,4 +18,3 @@ for _ in range(m):
         print(s[t])
     except:
         print(s[t])
-```
