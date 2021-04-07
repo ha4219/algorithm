@@ -1,19 +1,3 @@
----
-layout: post
-title: boj 4386 해설
-categories: [Baekjoon]
-tags: [백준 4386, boj 4386]
----
-
-[백준 4386번](https://www.acmicpc.net/problem/4386)
-======
-
-mst
-
------
-mst
-
-```python
 from sys import stdin
 from math import sqrt
 
@@ -60,4 +44,3 @@ for i in range(n):
 
 selected = []
 print(kruskal(n+1))
-```
