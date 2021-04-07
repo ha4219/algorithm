@@ -1,19 +1,3 @@
----
-layout: post
-title: boj 9372 해설
-categories: [Baekjoon]
-tags: [백준 9372, boj 9372]
----
-
-[백준 9372번](https://www.acmicpc.net/problem/9372)
-======
-
-mst
-
------
-mst
-
-```python
 from sys import stdin
 
 
@@ -57,4 +41,3 @@ for _ in range(int(input())):
     #     a[q-1].append(p-1)
     selected = []
     print(kruskal(n+1))
-```
