@@ -14,10 +14,9 @@ for i in range(n):
         first = False
         heappush(pq,a[i][1])
     else:
-        e=heappop(pq)
-        if e<=a[i][0]:
+        if pq[0]<=a[i][0]:
             heappush(pq,a[i][1])
         else:
-            heappush(pq,e)
+            heappop(pq)
             heappush(pq,a[i][1])
 print(len(pq))
