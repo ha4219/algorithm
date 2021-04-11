@@ -1,19 +1,3 @@
----
-layout: post
-title: boj 16953 해설
-categories: [Baekjoon]
-tags: [백준 16953, boj 16953]
----
-
-[백준 16953번](https://www.acmicpc.net/problem/16953)
-======
-
-bfs
-
------
-bfs
-
-```python
 from sys import stdin
 from collections import deque
 
@@ -40,4 +24,3 @@ def bfs():
             q.append((n//2, c+1))
     return -1
 print(bfs())
-```
