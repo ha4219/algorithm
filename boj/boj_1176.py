@@ -1,20 +1,3 @@
----
-layout: post
-title: boj 1176 해설
-categories: [Baekjoon]
-tags: [백준 1176, boj 1176]
----
-
-[백준 1176번](https://www.acmicpc.net/problem/1176)
-======
-
-dp, bitmasking
-
------
-dp, bitmasking 문제
-맨 처음 문제를 접근했을 때 d[층][path] 이런식으로 생각했는데 답이 안나와서 고민해보니 index 즉 각 층에 따른 path 값과 index값이 필요하다. 처음과 같이하면 들어오는 순서가 누락되기에 값이 중복해서 들어온다.
-
-```python
 from sys import stdin
 
 
@@ -42,4 +25,3 @@ def dfs(f, idx, tall, path):
     return d[f][idx][path]
 
 print(dfs(0,0,0,0))
-```
