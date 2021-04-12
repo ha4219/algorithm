@@ -1,20 +1,3 @@
----
-layout: post
-title: boj 14389 해설
-categories: [Baekjoon]
-tags: [백준 14389, boj 14389]
----
-
-[백준 14389번](https://www.acmicpc.net/problem/14389)
-======
-
-dp, bitmasking
-
------
-dp, bitmasking 문제
-이전에 테트리스?? 문제랑 비슷한데 여기서 생각해야하는게 1<=n<=10, 1<=m<=25이다. 만약 평소처럼 **d = [[-1]*(1<<m) for _ in range(n)]** 이런식으로 짜면 메모리 초과가 뜬다.(직접 확인했다...) 그러면 m보다 작은 n으로, 즉 세로로 탐색해야한다.
-
-```python
 from sys import stdin
 
 
@@ -50,4 +33,3 @@ def dfs(x, path):
         dfs(x+1,path>>1)+1)
     return d[x][path]
 print(dfs(0,0))
-```
