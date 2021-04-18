@@ -40,6 +40,3 @@ for _ in range(M):
         crash = solve(int(i), d, int(c))
 if not crash:
     print("OK")
-
-
-출처: https://rebas.kr/739 [PROJECT REBAS]
