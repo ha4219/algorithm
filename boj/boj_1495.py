@@ -6,13 +6,13 @@ input = stdin.readline
 
 n,s,m=map(int,input().split())
 a = list(map(int,input().split()))
-d = [[-1]*(m+1) for _ in range(n+1)]
+d = [[-2]*(m+1) for _ in range(n+1)]
 
 
 def dfs(i,v):
     if i==n:
         return v;
-    if d[i][v]!=-1:
+    if d[i][v]!=-2:
         return d[i][v]
     d[i][v] = -1
     if 0<=v+a[i]<=m:
