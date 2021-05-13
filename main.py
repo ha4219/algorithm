@@ -47,3 +47,4 @@ for _ in range(m):
     else:
         print(merge(t[1]-1,t[2]-1,1,0,n-1))
     
+
