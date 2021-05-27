@@ -6,14 +6,14 @@ input = stdin.readline
 
 n = int(input())
 a = [list(map(int,input().split())) for _ in range(n)]
+
 a.sort()
 
+res = 0
 l = -maxsize
 r = -maxsize
-
-res = 0
 for i in range(n):
-    if r <= a[i][0]:
+    if r<a[i][0]:
         res += r-l
         l = a[i][0]
         r = a[i][1]
