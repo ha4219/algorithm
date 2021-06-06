@@ -17,20 +17,11 @@ for i in range(2,1001):
         p[j] = 0
 
 res = 1
-ret = 0
-g = 1
-f = 1
 
 for i in a:
-    if p[i]:
+    if p[i] and res%i:
         res *= i
-        ret += 1
-        if f:
-            g = i
-            f = 0
-        else:
-            g = gcd(g, i)
-if ret == 0:
+if res == 1:
     print(-1)
 else:
-    print(res//g)
+    print(res)
