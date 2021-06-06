@@ -4,15 +4,15 @@ from math import gcd
 
 input = stdin.readline
 setrecursionlimit(10**6)
+MAX = 1000001
 
-n = int(input())
-a = list(map(int,input().split()))
-x = int(input())
+# n = int(input())
+# a = list(map(int,input().split()))
+p = [1] * MAX
+p[1] = 0
+p[2] = 0
 
-res = 0
-ret = 0
-for i in a:
-    if gcd(i, x)==1:
-        res += i
-        ret += 1
-print(res/ret)
+for i in range(2,1001):
+    for j in range(i*2,MAX,i):
+        p[j] = 0
+print(p[:100])
