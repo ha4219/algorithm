@@ -3,6 +3,7 @@ from sys import stdin, setrecursionlimit, maxsize
 
 input = stdin.readline
 setrecursionlimit(10**6)
+
 s = input().strip()
 sl = len(s)
 
@@ -32,3 +33,4 @@ for i in range(sl):
 while len(st):
     res += st.pop()
 print(res)
+
