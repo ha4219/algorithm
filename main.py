@@ -4,6 +4,7 @@ from sys import stdin, setrecursionlimit, maxsize
 input = stdin.readline
 setrecursionlimit(10**6)
 
+
 s = input().strip()
 t = '(^0^)'
 tl = len(t)
