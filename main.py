@@ -5,61 +5,54 @@ from collections import deque
 input = stdin.readline
 setrecursionlimit(10**6)
 
-class DisjointSet:
-  def __init__(self, n):
-    self.data = list(range(n))
-    self.size = n
+n, m = map(int,input().split())
+a = [list(map(int,input().split())) for _ in range(n)]
 
-  def find(self, index):
-    if self.data[index]==index:
-        return index
-    self.data[index] = self.find(self.data[index])
-    return self.data[index]
+q = deque()
+v = [[[0]*4 for _ in range(m)] for _ in range(n)]
+r = [0]*(n*m)
+for i in range(n):
+    for j in range(m):
+        if a[i][j]==9:
+            r[i*m+j] = 1
+            for k in range(4):
+                q.append((i,j,k))
+                v[i][j] = [1,1,1,1]
 
-  def union(self, x, y):
-    x, y = self.find(x), self.find(y)
-    if y<x:
-        self.data[y] = self.data[x]
-    else:
-        self.data[x] = self.data[y]
-
-    @property
-    def length(self):
-      return len(set(self.data))
-
-selected = []
-def kruskal(v):
-    res = 0
-    s = DisjointSet(v+1)
-    a.sort(key=lambda x:x[2])
-    for u,v,cost in a:
-        if s.find(u)==s.find(v):
+dx,dy=(0,0,1,-1),(1,-1,0,0)
+def bfs():
+    while q:
+        x,y,d = q.popleft()
+        cx,cy = x+dx[d],y+dy[d]
+        if cx<0 or cy<0 or cx>=n or cy>=m or v[cx][cy][d]:
             continue
-        s.union(u,v)
-        selected.append((u,v))
-        res += cost
-    return ret - res
-
-
-n,m=map(int,input().split())
-a = [list(map(int,input().split())) for _ in range(m)]
-aa = [[] for _ in range(n+1)]
-for i in range(m):
-    aa[a[i][0]].append(a[i][1])
-    aa[a[i][1]].append(a[i][0])
-v = [0] * (n+1)
-def dfs(idx):
-    v[idx] = 1
-    for next in aa[idx]:
-        if v[next]:
-            continue
-        dfs(next)
-dfs(1)
-for i in range(1,n+1):
-    if v[i]==0:
-        print(-1)
-        exit(0)
-ret = 0
-for i in range(m):
-    ret += a[i][2]
-print(kruskal(n))
+        v[cx][cy][d] = 1
+        r[cx*m+cy] = 1
+        if a[cx][cy]==0:
+            q.append((cx,cy,d))
+        elif a[cx][cy]==1:
+            if d>1:
+                q.append((cx,cy,d))
+        elif a[cx][cy]==2:
+            if d<2:
+                q.append((cx,cy,d))
+        elif a[cx][cy]==3:
+            if d==0:
+                q.append((cx,cy,3))
+            elif d==1:
+                q.append((cx,cy,2))
+            elif d==2:
+                q.append((cx,cy,1))
+            else:
+                q.append((cx,cy,0))
+        else:
+            if d==0:
+                q.append((cx,cy,2))
+            elif d==1:
+                q.append((cx,cy,3))
+            elif d==2:
+                q.append((cx,cy,0))
+            else:
+                q.append((cx,cy,1))
+    return sum(r)
+print(bfs())
