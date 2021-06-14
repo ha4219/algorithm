@@ -7,6 +7,7 @@ setrecursionlimit(10**6)
 
 n, m = map(int,input().split())
 
+
 a = [[] for _ in range(n+1)]
 
 for _ in range(m):
