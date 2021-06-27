@@ -8,21 +8,30 @@ setrecursionlimit(10**6)
 
 
 
-n, k = map(int,input().split())
-a = [int(input()) for _ in range(n)]
+n = int(input())
+m = int(input())
+a = list(map(int,input().split()))
 
 l = 0
-r = 1000000000000000000
+r = n
+res = maxsize
 
-res = 99999999999999
+
 while l<=r:
-    s = 0
-    m = (l+r) // 2
-    for i in range(n):
-        s += m//a[i]
-    if s>=k:
-        res = m
-        r = m - 1
+    mid = (l+r) // 2
+    c = 1
+    if a[0] - mid>0:
+        c = 0
+    for i in range(1,m):
+        if a[i-1]+mid<a[i]-mid or c==0:
+            c = 0
+            break
+    if a[m-1]+mid<n:
+        c = 0
+    if c:
+        res = min(res, mid)
+        r = mid-1
     else:
-        l = m + 1
+        l = mid+1
 print(res)
+    
