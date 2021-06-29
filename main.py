@@ -7,24 +7,31 @@ input = stdin.readline
 setrecursionlimit(10**6)
 
 
+n, m = map(int,input().split())
+a = [int(input()) for _ in range(n)]
 
-x, y = map(int, input().split())
-
-if x==y:
-    print(-1)
-    exit(1)
-
-t = (y*100//x)
 l = 0
-r = 1000000000*2
+r = sum(a)*2
 res = maxsize
 
+def f(mon):
+    cur = 0
+    cnt = 0
+    for i in range(n):
+        if a[i] > mon:
+            return 0
+        if cur<a[i]:
+            cur = mon
+            cnt += 1
+        cur -= a[i]
+    return cnt<=m
+
 while l<=r:
-    m = (l+r) // 2
-    tt = ((m+y)*100//(m+x))
-    if tt==t:
-        l = m + 1
+    mid = (l+r)//2
+    # print(l,r,mid)
+    if f(mid):
+        res = min(res, mid)
+        r = mid - 1
     else:
-        res = min(res, m)
-        r = m - 1
+        l = mid + 1
 print(res)
