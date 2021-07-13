@@ -42,25 +42,18 @@ int solve(){
         int cur=q.front().first;
         int time=q.front().second;
         q.pop();
-        // printf("%d %d \n", time, cur);
-        
-        // printf("a[cur].size = %d\n", a[cur].size());
         for(int i=0;i<a[cur].size();i++){
             int next = a[cur][i];
-            // printf("next: %d\n", next);
             if(v[next]){
                 continue;
             }
             int t = s[next]&1 ? s[next]/2+1:s[next]/2;
             int rr=0;
             for(auto nr:a[next]){
-                // printf("next: %d nr: %d\n", next, nr);
-                // printf("res[nr]: %d, v[nr]: %d\n", res[nr], v[nr]);
                 if(res[nr]!=-1&&res[nr]<=time){
                     rr++;
                 }
             }
-            // printf("t: %d rr: %d\n", t, rr);
             if(t<=rr){
                 v[next] = 1;
                 res[next] = time+1;
