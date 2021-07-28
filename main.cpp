@@ -1,66 +1,40 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <map>
+#include <vector>
+#include <algorithm>
+#include <string.h>
 
-// #define MAX 2^26+1
-#define MAX 300001
+#define MAX 16
+#define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+#define max(a,b) \
+({ __typeof__ (a) _a = (a); \
+__typeof__ (b) _b = (b); \
+_a > _b ? _a : _b; })
+#define MOD 6
+
 using namespace std;
 
 typedef long long ll;
-vector<int> a[MAX];
-int s[MAX];
-int v[MAX];
-ll f[MAX];
-ll d, g;
-
 int n;
+ll a[MAX];
+int res;
 
-void dfs(int cur){
-    v[cur] = 1;
-    // g
-    if(s[cur]>=3){
-        // g += f[s[cur]]/f[3];
-        g += (ll)(s[cur])*(s[cur]-1)*(s[cur]-2)/6;
-    }
-    // d
-    for(int next:a[cur]){
-        if(v[next])
-            continue;
-        d += (ll)(s[cur]-1LL)*(ll)(s[next]-1LL);
-        dfs(next);
-    }
-}
+// vector<pair<int, int>> a;
+
+// bool cmp(pair<int,int> l, pair<int,int> r){
+//     return l.second<r.second;
+// }
+
 
 int solve(){
-    scanf("%d", &n);
-    for(int i=0;i<n-1;i++){
-        int p,q;
-        scanf("%d %d", &p, &q);
-        s[p]++;s[q]++;
-        a[p].push_back(q);
-        a[q].push_back(p);
-    }
-    // f[1] = 1LL;
-    // for(int i=2;i<MAX;i++)
-    //     f[i] = f[i-1] * (ll)i;
-
-    for(int i=1;i<=n;i++){
-        if(!v[i])
-            dfs(i);
-    }
-
-    if(d==g*3){
-        printf("DUDUDUNGA\n");
-    }else if(d>g*3){
-        printf("D\n");
-    }else{
-        printf("G\n");
-    }
-    // printf("%d %d\n", d, g);
+    cin>>n;
+    
     return 0;
 }
 
-int main() {
-    int T;
-    
+int main(int argc, char** argv)
+{
+    FAST;
     solve();
     return 0;
 }

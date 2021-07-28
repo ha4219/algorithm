@@ -18,14 +18,14 @@ int f(string s, int bit){
         }else if(s=="1"){
             return 1;
         }else{
-            int x = bit&(1<<(int(s[0])-97));
+            int x = bit&(1<<(int(s[0])-97))?1:0;
             return x;
         }
     }
     size_t idx = s.find("?");
     if(idx==string::npos){
-        int x = bit&(1<<(int(s[0])-97));
-        int y = bit&(1<<(int(s[3])-97));
+        int x = bit&(1<<(int(s[0])-97))?1:0;
+        int y = bit&(1<<(int(s[3])-97))?1:0;
         if(x==y)
             return 1;
         else
@@ -33,7 +33,7 @@ int f(string s, int bit){
     }else{
         // 1 ? 1 : 0
         // x==y ? 1 : 0
-        int x = bit&(1<<(int(s[0])-97));
+        int x = bit&(1<<(int(s[0])-97))?1:0;
         if(idx==1){
             if(x)
                 return f(s.substr(2, sl-2-idx), bit);
