@@ -10,22 +10,38 @@ setrecursionlimit(10**6)
 n, k, c = map(int, input().split())
 a = list(map(int, input().split()))
 
-def f(time):
+def backtracking(idx, cc, time):
+    res = 0
+    if idx==n:
+        for i in range(n):
+            res += time//a[i]
+        return res
+    for i in range(idx, n):
+        if cc<c and a[i]>1:
+            cc += 1
+            a[i] -= 1
+            res = max(res, backtracking(i, cc, time))
+            a[i] += 1
+            cc -= 1
+    res = max(res, backtracking(n, cc, time))
+    return res
 
-    return 1
+def f(time):
+    res = backtracking(0,0,time)
+    return res>=k
 
 def solve():
-    l = 1
-    r = int(1e12+1)
+    l = 0
+    r = int(2e12+1)
     res = maxsize
     while l<=r:
         m = (l+r)//2
-
-        if f(m):
+        tmp = f(m)
+        if tmp:
             r = m - 1
             res = min(res, m)
         else:
             l = m + 1
     return res
-    
+
 print(solve())
