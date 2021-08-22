@@ -11,15 +11,19 @@ n = int(input())
 a = list(map(int, input().split()))
 
 res = 0
-left = 0
-right = 0
+odd = [0] * (n+2)
+even = [0] * (n+2)
 
-# ? 
-
-# 정직
 for i in range(n):
     if i%2:
-        left += a[i]
+        odd[i+1] = a[i] + odd[i-1]
+        even[i+1] = even[i-1]
     else:
-        right += a[i]
-res = max(left, right)
+        odd[i+1] = odd[i-1]
+        even[i+1] = a[i] + even[i-1]
+
+res = max(odd[n], even[n])
+
+for i in range(1,n):
+    res = max(res, odd[i-1]+even[n-1]-even[i] + a[i-1])
+print(res)
