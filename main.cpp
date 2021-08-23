@@ -3,63 +3,63 @@
 
 using namespace std;
 
-typedef long long ll;
-int n, k, c;
-vector<int> a;
+int n;
+int box[105][105];
+int vis[105][105];
+int dx[] = {0, 1, 0, -1};
+int dy[] = {-1, 0, 1, 0};
 
-int backtracking(int idx, int cc, ll time){
-    int res = 0;
-    if(cc==c){
-        cout<<idx<<cc<<time<<endl;
-        for(auto num: a){
-            res += time/num;
-        }
-        return res;
-    }
-    for(int i=0;i<n;i++){
-        if(cc<c&&a[i]>1){
-            cc += 1;
-            a[i] -= 1;
-            res = max(res, backtracking(i, cc, time));
-            a[i] += 1;
-            cc -= 1;
-        }
-    }
-    return res;
-}
-
-bool f(ll time){
-    int res = backtracking(0,0,time);
-    return res>=k;
-}
-
-ll solve(){
-    ll l = 1LL;
-    ll r = ll(1e12+1);
-    ll res = 1e12;
-    while(l<=r){
-        ll m = (l+r)/2;
-        bool tmp = f(m);
-        cout<<m<<" "<<tmp<<endl;
-        if (tmp){
-            r = m - 1;
-            res = min(res, m);
-        }else{
-            l = m + 1;
-        }
-    }
-    return res;
-}
-
-int main() {
-    FAST;
-    cin>>n>>k>>c;
-    a.resize(n+1);
-    for(int i=0;i<n;i++){
-        cin>>a[i];
-        cout<<a[i]<<endl;
-    }
-
-    cout<<solve()<<endl;
-    return 0;
+int main(void){
+	// Fast;
+	cin >> n;
+	for(int i = 0;i < n;i++)
+		for(int j = 0;j < n;j++)
+			cin >> box[i][j];
+	
+	if(n == 1){
+		if(box[0][0])
+			cout << "Fired";
+		else
+			cout << 1;
+		return 0;
+	}
+	
+	queue<tuple<int, int, int, int, int>> Q;
+	Q.push(make_tuple(0, 0, 0, -1, 0));
+	vis[0][0] = 1;
+	while(!Q.empty()){
+		auto cur = Q.front(); Q.pop();
+		int x = get<0>(cur);
+		int y = get<1>(cur);
+		int t = get<2>(cur);
+		int d = get<3>(cur);
+		int b = get<4>(cur);
+		
+		for(int dir = 0;dir < 4;dir++){
+			int nx = x + dx[dir];
+			int ny = y + dy[dir];
+			int td = d;
+			
+			if(td == -1)
+				td = dir;
+			
+			else if(td == dir){
+				b++;
+				if(td == 0)
+					ny -= b;
+				else if(td == 1)
+                    cout << t+1;
+				return 0;
+			}
+			
+			if(nx < 0 || nx >= n || ny < 0 || ny >= n) continue;
+			if(vis[nx][ny]) continue;
+			if(box[nx][ny] && t+1 >= box[nx][ny]) continue;
+			
+			Q.push(make_tuple(nx, ny, t+1, td, b));
+			vis[nx][ny] = 1;
+		}
+	}
+	cout << "Fired";
+	return 0;
 }
