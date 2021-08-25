@@ -2,12 +2,15 @@
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
+#define rep(i,n) for(int i=0; i<n; i++)
 // #define x first
 // #define y second
 
 using namespace std;
 
-int n, q, sqrtN, res;
+int n, c, q, sqrtN, res;
+int res1, res2;
+// count, idx
 vector<int> a;
 vector<int> cnt;
 vector<int> ret;
@@ -30,10 +33,10 @@ void erase1(int idx){
 
 int main(void){
 	FAST;
-    cin >> n;
+    cin >> n >> c;
     sqrtN = sqrt(n);
     a.resize(n+1);
-    cnt.resize(1000001);
+    cnt.resize(c+1);
     for(int i=1;i<=n;i++){
         cin>>a[i];
     }
@@ -76,7 +79,12 @@ int main(void){
             erase1(e);
             e--;
         }
-        ret[idx] = res;
+        if ((query[idx].second-query[idx].first+1)/2<=res-1){
+            // TODO
+        }else{
+            ret[idx] = -1;
+        }
+        // ret[idx] = res;
     }
     for(auto num: ret){
         cout<<num<<'\n';
