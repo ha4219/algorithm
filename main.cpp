@@ -10,8 +10,6 @@
 #define FOREACH(a, b) for (auto&(a) : (b))
 #define REP(i, n) FOR(i, 0, n)
 #define REPN(i, n) FORN(i, 1, n)
-#define MAX(a, b) a = max(a, b)
-#define MIN(a, b) a = min(a, b)
 #define SQR(x) ((LL)(x) * (x))
 #define RESET(a, b) memset(a, b, sizeof(a))
 #define fi first
@@ -29,67 +27,49 @@
 #define TC(t) while (t--)
 
 #define INF 1e9
+#define MAX 2501
 
 using namespace std;
 
-int t, n, m, k;
-int d[101][10001];
-auto cmp = [](PIII &l, PIII &r) -> bool {
-    return l.fi.fi>r.fi.fi;
-};
-vector<vector <PIII>> a;
+string a;
+int n;
+int d[MAX][MAX];
+int dp[MAX];
 
-int dijkstra(int start){
-    priority_queue<PIII, vector<PIII>, decltype(cmp)> pq(cmp);
-    RESET(d, INF);
-    REP(i, n+1){
-        REP(j, 10001){
-            d[i][j] = INF;
-        }
+int f(int l, int r){
+    if(dp[l]!=-1){
+        return dp[l];
     }
-    d[1][0] = 0;
-    pq.push({PII(0, start), 0});
-    while(!pq.empty()){
-        int tt = pq.top().fi.fi;
-        int xx = pq.top().fi.second;
-        int cc = pq.top().second;
-        pq.pop();
-        if(xx==n){
-            return tt;
-        }
-        if(tt>d[xx][cc]){
-            continue;
-        }
-        for(auto next: a[xx]){
-            if(cc+next.fi.se>m||d[next.fi.fi][cc+next.fi.se]<=d[xx][cc]+next.se){
-                continue;
-            }
-            d[next.fi.fi][cc+next.fi.se] = d[xx][cc] + next.se;
-            pq.push({PII(d[next.fi.fi][cc+next.fi.se],next.fi.fi),cc+next.fi.se});
-        }
-
+    if(d[l][r-1]){
+        dp[l] = 1;
+        return dp[l];
     }
-    return -1;
+    dp[l] = INF;
+    FORN(i, l, r){
+        dp[l] = min(dp[l], f(l,i)+f(i,r));
+    }
+    return dp[l];
 }
 
 int main(void){
 	FAST;
-    cin>>t;
-    TC(t){
-        cin>>n>>m>>k;
-        a.clear();
-        a.resize(n+1);
-        REP(i, k){
-            int p,q,e,r;
-            cin>>p>>q>>e>>r;
-            a[p].pb({PII(q,e),r});
-        }
-        int res = dijkstra(1);
-        if(res==-1){
-            cout<<"Poor KCM\n";
-        }else{
-            cout<<res<<'\n';
+    cin>>a;
+    n = a.length();
+    RESET(dp, -1);
+    REP(i,n){
+        REP(j,n-i){
+            if(i==0){
+                d[j][j] = 1;
+            }else if(i==1){
+                d[j][j+1] = a[j]==a[j+i];
+            }else{
+                d[j][i+j] = a[j]==a[j+i]? d[j+1][j+i-1]:0;
+            }
         }
     }
+    // 6,250,000
+
+    // f > n**3?
+    cout<<f(0,n)<<'\n';
     return 0;
 }
