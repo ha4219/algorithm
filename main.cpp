@@ -26,50 +26,37 @@
 #define PERMUTE next_permutation
 #define TC(t) while (t--)
 
-#define INF 1e9
-#define MAX 2501
+#define INF 1e18
+#define MAX 500001
 
+typedef long long ll;
 using namespace std;
 
-string a;
+ll w;
 int n;
-int d[MAX][MAX];
-int dp[MAX];
+vector<ll> a;
+vector<ll> s;
+ll d[MAX];
 
-int f(int l, int r){
-    if(dp[l]!=-1){
-        return dp[l];
+ll f(int l, int r){// for i in range(l, r) -> l부터 r-1까지
+    if(l==r){
+        return (w-a[l])*(w-a[r]);
     }
-    if(d[l][r-1]){
-        dp[l] = 1;
-        return dp[l];
+    if(d[l]!=INF){
+        return d[l];
     }
-    dp[l] = INF;
-    FORN(i, l, r){
-        dp[l] = min(dp[l], f(l,i)+f(i,r));
-    }
-    return dp[l];
+    
 }
 
 int main(void){
 	FAST;
-    cin>>a;
-    n = a.length();
-    RESET(dp, -1);
-    REP(i,n){
-        REP(j,n-i){
-            if(i==0){
-                d[j][j] = 1;
-            }else if(i==1){
-                d[j][j+1] = a[j]==a[j+i];
-            }else{
-                d[j][i+j] = a[j]==a[j+i]? d[j+1][j+i-1]:0;
-            }
-        }
+    cin>>w>>n;
+    a.resize(n+1);
+    s.resize(n+1);
+    RESET(d, INF);
+    REPN(i, n){
+        cin>>a[i];
+        s[i] = s[i-1] + a[i];
     }
-    // 6,250,000
-
-    // f > n**3?
-    cout<<f(0,n)<<'\n';
     return 0;
 }
