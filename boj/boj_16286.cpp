@@ -41,35 +41,29 @@ vector<ll> a;
 vector<ll> s;
 ll d[MAX];
 
-int f(int mid){
-    //mid<=뭉텅이<=w
-    int prev = 0;
-    int flag1 = 1;
-    REPN(i, n){
-        int tmp = s[i]-s[prev-1];
-        if(tmp>w){
-            prev = i;
-            if(tmp-a[i]<mid){
-                cout<<"first"<<tmp-a[i]<<endl;
-                return 0;
-            }
-        }
+ll f(int l, int r){// for i in range(l, r+1) -> l부터 r까지
+    if(l==r){
+        return SQR(w-a[l]);
     }
-    int tmp = s[n] - s[prev-1];
-    if(tmp>w){
-        if(s[n-1]-s[prev-1]<mid){
-            cout<<"second"<<s[n-1]-s[prev-1]<<endl;
-            return 0;
-        }
-        if(a[n]>w||a[n]<mid){
-            cout<<"third"<<a[n]<<endl;
-            return 0;
-        }
-    }else if(tmp<mid){
-        cout<<"firth"<<tmp<<endl;
-        return 0;
+    // cout<<"f "<<l<<" "<<r<<endl;
+    if(d[r]!=-1){
+        return d[r];
     }
-    return 1;
+    if(s[r]-s[l-1]<=w){
+        // cout<<"pass"<<s[r]-s[l-1]<<" "<<l<<r<<endl;
+        d[r] = SQR(w-s[r]-s[l-1]);
+        return d[r];
+    }
+    d[r] = INF;
+    // cout<<"d "<<d[r]<<'\n';
+    for(int i=l;i<r;i++){
+        ll tmpl = f(l, i);
+        ll tmpr = f(i+1, r);
+        ll tmp = max(tmpl,tmpr);
+        d[r] = min(d[r], tmp);
+        // cout<<l<<"~"<<i<<" "<<i+1<<"~"<<r<<" "<<tmpl<<" "<<tmpr<<endl;
+    }
+    return d[r];
 }
 
 int main(void){
@@ -82,20 +76,7 @@ int main(void){
         cin>>a[i];
         s[i] = s[i-1] + a[i];
     }
-    int l = 1;
-    int r = w;
-    int res = 0;
-    while (l<=r){
-        int mid = (l+r)/2;
-        if(f(mid)){
-            l = mid + 1;
-            cout<<mid<<endl;
-            res = max(res, mid);
-        }else{
-            cout<<"false"<<mid<<endl;
-            r = mid - 1;
-        }
-    }
-    cout<<res<<endl;
+    
+    cout<<f(1, n)<<endl;
     return 0;
 }
