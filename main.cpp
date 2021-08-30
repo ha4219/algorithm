@@ -43,31 +43,58 @@ ll d[MAX];
 
 int f(int mid){
     //mid<=뭉텅이<=w
-    int prev = 0;
-    int flag1 = 1;
+    vector<int> idx;
+    REP(i, n+1){
+        idx.pb(i);
+    }
+    int prev = 1;
     REPN(i, n){
-        int tmp = s[i]-s[prev-1];
+        ll tmp = s[i]-s[prev-1];
         if(tmp>w){
-            prev = i;
-            if(tmp-a[i]<mid){
-                cout<<"first"<<tmp-a[i]<<endl;
+            if(s[i-1]-s[prev-1]<mid){
                 return 0;
             }
+            prev = i;
+        }else{
+            idx[i] = prev;
         }
     }
-    int tmp = s[n] - s[prev-1];
-    if(tmp>w){
-        if(s[n-1]-s[prev-1]<mid){
-            cout<<"second"<<s[n-1]-s[prev-1]<<endl;
-            return 0;
+    int i = n;
+    int idxz = idx[i];
+    ll tmp = 0;
+    while (i>0)
+    {
+        int j=i;
+        while (idx[j]==idxz&&j>0)
+        {
+            j--;
         }
-        if(a[n]>w||a[n]<mid){
-            cout<<"third"<<a[n]<<endl;
-            return 0;
+        j+=1;
+        tmp = s[i]-s[j-1];
+        // cout<<"test #1"<<endl;
+        // printf("i: %d j: %d tmp: %lld\n",i,j,tmp);
+        // printf("idxz: %d idx[i]: %d idx[j]: %d\n",idxz,idx[i],idx[j]);
+        // cout<<"****************"<<endl;
+        if(mid<=tmp&&tmp<=w){ // satisfy
+            i = j-1;
+            idxz = idx[i];
+            tmp = 0LL;
+        }else{
+            while (tmp<mid&&j>0)
+            {
+                j--;
+                tmp += a[j];
+            }
+            // cout<<"test #2"<<endl;
+            // printf("i: %d j: %d tmp: %lld\n",i,j,tmp);
+            // printf("idxz: %d idx[i]: %d idx[j]: %d\n",idxz,idx[i],idx[j]);
+            if(tmp>w||j==0){
+                return 0;
+            }
+            i = j-1;
+            idxz = idx[i];
+            tmp = 0LL;
         }
-    }else if(tmp<mid){
-        cout<<"firth"<<tmp<<endl;
-        return 0;
     }
     return 1;
 }
@@ -89,13 +116,11 @@ int main(void){
         int mid = (l+r)/2;
         if(f(mid)){
             l = mid + 1;
-            cout<<mid<<endl;
             res = max(res, mid);
         }else{
-            cout<<"false"<<mid<<endl;
             r = mid - 1;
         }
     }
-    cout<<res<<endl;
+    cout<<SQR(w-res)<<endl;
     return 0;
 }
