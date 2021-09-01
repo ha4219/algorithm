@@ -10,7 +10,10 @@ MAX = 6000000
 n = int(input())
 
 k = int(input())
-kill = list(map(int, input().split()))
+if k!=0:
+    kill = list(map(int, input().split()))
+else:
+    kill = []
 kills = [0] * 10
 for kk in kill:
     kills[kk] = 1
@@ -18,11 +21,8 @@ k = []
 for i in range(10):
     if not kills[i]:
         k.append(i)
-
 res = abs(100-n)
 for p in k:
-    if p==0:
-        continue
     res = min(res, abs(p-n)+1)
     for pp in k:
         res = min(res, abs(int(str(p)+str(pp))-n)+2)
