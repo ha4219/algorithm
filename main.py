@@ -6,33 +6,19 @@ from math import sqrt, gcd
 
 input = stdin.readline
 setrecursionlimit(10**5)
-MAX = 6000000
+
+MAX = 50000
+d = []
+for i in range(int(sqrt(MAX)+1)):
+    d.append(i*i)
+
 n = int(input())
-
-k = int(input())
-kill = list(map(int, input().split()))
-kills = [0] * 10
-for kk in kill:
-    kills[kk] = 1
-k = []
-for i in range(10):
-    if not kills[i]:
-        k.append(i)
-
-res = abs(100-n)
-for p in k:
-    if p==0:
-        continue
-    res = min(res, abs(p-n)+1)
-    for pp in k:
-        res = min(res, abs(int(str(p)+str(pp))-n)+2)
-        # heappush(pq, (2, int(str(p)+str(pp))))
-        for ppp in k:
-            res = min(res, abs(int(str(p)+str(pp)+str(ppp))-n)+3)
-            for pppp in k:
-                res = min(res, abs(int(str(p)+str(pp)+str(ppp)+str(pppp))-n)+4)
-                for ppppp in k:
-                    res = min(res, abs(int(str(p)+str(pp)+str(ppp)+str(pppp)+str(ppppp))-n)+5)
-                    for pppppp in k:
-                        res = min(res, abs(int(str(p)+str(pp)+str(ppp)+str(pppp)+str(ppppp)+str(pppppp))-n)+6)
-print(res)
+l = len(d)
+dp = [maxsize] * (n+1)
+dp[0] = 0
+for i in range(1, n+1):
+    idx = 1
+    while idx<l and i>=d[idx]:
+        dp[i] = min(dp[i], dp[i-d[idx]]+1)
+        idx += 1
+print(dp[n])

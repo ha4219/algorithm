@@ -30,34 +30,33 @@ typedef long long ll;
 #define PERMUTE next_permutation
 #define TC(t) while (t--)
 
-#define INF 1e17
-#define MAX 500001
+#define INF 1e9
+#define MAX 50001
 
 using namespace std;
 
 int n, m;
 int t;
-vector<ll> a;
-
-int solve(){
-    int res = 0;
-    m++;
-    for(int k=30;k>=0 and n<m;k--){
-        if ((n>>k&1)==(m>>k&1)) continue;
-        if (m>>k & 1) res |= 1<<k, n |= 1<<k;
-    }
-    cout<<res<<endl;
-    return 0;
-}
+vector<int> d;
+int dp[MAX];
 
 int main(void){
 	FAST;
-    cin>>t;
-    TC(t)
-    {
-        cin>>n>>m;
-        solve();
+    int sqrtMax = int(sqrt(MAX)+1);
+    d.resize(sqrtMax);
+    REP(i, sqrtMax){
+        d[i] = i*i;
     }
-    
+    cin>>n;
+    RESET(dp, MAX);
+    dp[0] = 0;
+    REPN(i, n){
+        int idx = 1;
+        while ((idx<sqrtMax&&i>=d[idx])){
+            dp[i] = min(dp[i], dp[i-d[idx]]+1);
+            idx++;
+        }
+    }
+    cout<<dp[n]<<endl;
     return 0;
 }
