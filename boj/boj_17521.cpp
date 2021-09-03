@@ -35,64 +35,32 @@ typedef long long ll;
 
 using namespace std;
 
-
-int n, m;
-int s, e;
-vector<vector<PII>> a;
-
-int f(int mid){
-    vector<int> v;
-    v.resize(n+1);
-    v[s] = 1;
-    queue<int> q;
-    q.push(s);
-    while (!q.empty())
-    {
-        int x = q.front();
-        q.pop();
-        if (x==e){
-            return 1;
-        }
-        for(auto next : a[x]){
-            if (v[next.first] || next.second<mid){
-                continue;
-            }
-            v[next.first] = 1;
-            q.push(next.first);
-        }
-    }
-    return 0;
-}
+int n;
+ll w;
+ll cnt;
+vector<ll> a;
 
 int solve() {
-    int l = 0;
-    int r = INF;
-    int res;
-    while (l<=r)
-    {
-        int m = (l+r)/2;
-        if(f(m)){
-            l = m + 1;
-            res = m;
-        }else{
-            r = m - 1;
+    REP(i, n-1){
+        if (a[i]<a[i+1]){ // 매수
+            cnt += w/a[i];
+            w -= (w/a[i])*a[i];
+        }else if (a[i]>a[i+1]){ //매도
+            w += cnt*a[i];
+            cnt = 0LL;
         }
     }
-    cout<<res<<endl;
+    cout<<w+cnt*a[n-1]<<endl;
     return 0;
 }
 
-int main(){
-    FAST;
-    cin>>n>>m;
-    a.resize(n+1);
-    REP(i, m){
-        int p,q,r;
-        cin>>p>>q>>r;
-        a[p].pb({q,r});
-        a[q].pb({p,r});
+int main(void){
+	FAST;
+    cin>>n>>w;
+    a.resize(n);
+    REP(i, n){
+        cin>>a[i];
     }
-    cin>>s>>e;
     solve();
     return 0;
 }

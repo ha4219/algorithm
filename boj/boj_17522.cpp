@@ -35,64 +35,43 @@ typedef long long ll;
 
 using namespace std;
 
+int n;
+int x,y;
+vector<PII> a;
 
-int n, m;
-int s, e;
-vector<vector<PII>> a;
 
-int f(int mid){
-    vector<int> v;
-    v.resize(n+1);
-    v[s] = 1;
-    queue<int> q;
-    q.push(s);
-    while (!q.empty())
-    {
-        int x = q.front();
-        q.pop();
-        if (x==e){
-            return 1;
-        }
-        for(auto next : a[x]){
-            if (v[next.first] || next.second<mid){
-                continue;
-            }
-            v[next.first] = 1;
-            q.push(next.first);
-        }
-    }
-    return 0;
+int f(int dis){
+
 }
 
 int solve() {
     int l = 0;
-    int r = INF;
-    int res;
+    int r = 2e9;
+    int res = 0;
+
     while (l<=r)
     {
         int m = (l+r)/2;
-        if(f(m)){
-            l = m + 1;
+        int tmp = f(m);
+        if(tmp){
             res = m;
-        }else{
             r = m - 1;
+        }else{
+            l = m + 1;
         }
     }
+    
     cout<<res<<endl;
     return 0;
 }
 
-int main(){
-    FAST;
-    cin>>n>>m;
-    a.resize(n+1);
-    REP(i, m){
-        int p,q,r;
-        cin>>p>>q>>r;
-        a[p].pb({q,r});
-        a[q].pb({p,r});
+int main(void){
+	FAST;
+    cin>>n;
+    a.resize(n);
+    REP(i, n){
+        cin>>a[i].first>>a[i].second;
     }
-    cin>>s>>e;
     solve();
     return 0;
 }
