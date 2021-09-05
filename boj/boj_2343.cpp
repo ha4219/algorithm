@@ -34,15 +34,39 @@ typedef long long ll;
 
 using namespace std;
 
-int n;
+int n, k;
 vector<int> a;
 
+int f(int m){
+    int cnt = 1;
+    int sum = 0;
+    REP(i, n){
+        if (sum+a[i]<=m){
+            sum+=a[i];
+        }else{
+            cnt++;
+            sum = a[i];
+        }
+    }
+    return cnt<=k;
+}
+
 int solve(){
-    int res = 2;
-    int n2 = (n+1)/2;
-    int MOD = 16769023;
-    REP(i,n2-1){
-        res = (res*2)%MOD;
+    int l = *max_element(a.begin(),a.end());
+    int r = 0;
+    int res = 0;
+    for_each(a.begin(), a.end(), [&r](int& num){
+        r += num;
+    });
+    while (l<=r)
+    {
+        int m = (l+r)/2;
+        if(f(m)){
+            r = m - 1;
+            res = m;
+        }else{
+            l = m + 1;
+        }
     }
     cout<<res<<endl;
     return 0;
@@ -50,7 +74,11 @@ int solve(){
 
 int main(){
     FAST;
-    cin>>n;
+    cin>>n>>k;
+    a.resize(n);
+    REP(i,n){
+        cin>>a[i];
+    }
     solve();
     return 0;
 }
