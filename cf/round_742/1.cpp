@@ -35,17 +35,32 @@ typedef long long ll;
 
 using namespace std;
 
+int t;
 int n;
-int res[10];
+string s;
+int a[MAX];
+vector<int> v;
 
 int solve() {
-
+    string res = "";
+    REP(i, n){
+        if (s[i]=='U'||s[i]=='D'){
+            res += s[i]=='U' ? "D" : "U";
+        }else{
+            res += "LR";
+            i++;
+        }
+    }
+    cout<<res<<'\n';
     return 0;
 }
 
 int main(){
     FAST;
-    cin>>n;
-    solve();
+    cin>>t;
+    TC(t){
+        cin>>n>>s;
+        solve();
+    }
     return 0;
 }

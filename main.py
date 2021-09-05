@@ -7,6 +7,9 @@ from math import sqrt, gcd
 input = stdin.readline
 setrecursionlimit(10**5)
 
-n, k = map(int, input().split())
-a = [list(map(int, input().split())) for _ in range(n)]
-a.sort()
+
+n = int(input())
+d = [0] * (n+1)
+for i in range(n+1):
+    d[i] = int(str(i), 11)
+
