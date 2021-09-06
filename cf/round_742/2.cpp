@@ -39,51 +39,24 @@ int t;
 int a, b;
 
 int solve() {
-    if (b==0){
-        if (a==1){
-            cout<<1<<endl;
-        }else{
-            cout<<a+1<<endl;
-        }
+    int Xor;
+    if (a%4==0){
+        Xor = 0;
+    }else if (a%4==1){
+        Xor = a-1;
+    }else if (a%4==2){
+        Xor = 1;
     }else{
-        if (a==b){
-            int cnt = a;
-            // int res = 0;
-            // REP(i,a){
-            //     res ^= i;
-            // }
-            if (a%4==2){
-                cout<<cnt<<endl;
-            }else if(a%4==3){
-                cout<<cnt+2<<endl;
-            }else{
-                cout<<cnt+1<<endl;
-            }
-            // if (res==b){
-            //     cout<<cnt<<endl;
-            // }else if(res==0){
-            //     cout<<cnt<<endl;
-            // }else{
-            //     cout<<cnt+1<<endl;
-            // }
-        }else{
-            if (a==1){
-                cout<<2<<endl;
-            }else{
-                int cnt = a;
-                // int res = 0;
-                // REP(i,a){
-                //     res ^= i;
-                // }
-                if (a%4==2){
-                    cout<<cnt<<endl;
-                }else if(a%4==3){
-                    cout<<cnt+2<<endl;
-                }else{
-                    cout<<cnt+1<<endl;
-                }
-            }
-        }
+        Xor = a;
+    }
+    // cout<<a<<" "<<b<<endl;
+    // cout<<Xor<<endl;
+    if (Xor==b){
+        cout<<a<<'\n';
+    }else if((Xor^b)==a){
+        cout<<a+2<<'\n';
+    }else{
+        cout<<a+1<<'\n';
     }
     return 0;
 }
