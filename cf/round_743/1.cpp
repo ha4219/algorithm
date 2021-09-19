@@ -29,37 +29,39 @@ typedef long long ll;
 #define REVERSEA(arr, sz) reverse(ALLA(arr, sz))
 #define PERMUTE next_permutation
 #define TC(t) while (t--)
+#define PLI pair<ll, ll>
 
 #define INF 1e9
-#define MAX 50001
+#define MAX 1024
+#define ALLPATH 1023
+#define MOD 1000000000
 
 using namespace std;
 
-int n, m;
-int t;
-vector<int> d;
-int dp[MAX];
+int n, T;
+string s;
 
-int main(void){
-	FAST;
-    int sqrtMax = int(sqrt(MAX)+1);
-    d.resize(sqrtMax);
-    REP(i, sqrtMax){
-        d[i] = i*i;
-    }
-    cin>>n;
-    RESET(dp, MAX);
-    dp[0] = 0;
-    REPN(i, n){
-        int idx = 1;
-        while ((idx<sqrtMax&&i>=d[idx])){
-            dp[i] = min(dp[i], dp[i-d[idx]]+1);
-            idx++;
+int solve() {
+    int res = 0;
+    for(int i=n-1;i>=0;i--){
+        if (i==n-1){
+            res += (s[i]-'0');
+        }else{
+            if (s[i]!='0'){
+                res += (s[i]-'0') + 1;
+            }
         }
     }
-    cout<<dp[n]<<endl;
+    cout<<res<<endl;
     return 0;
 }
 
-장소로 가서 번호 or qr 코드
-문제 ox 풀고
+int main(){
+    FAST;
+    cin>>T;
+    TC(T){
+        cin>>n>>s;
+        solve();
+    }
+    return 0;
+}

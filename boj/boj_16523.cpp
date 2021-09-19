@@ -29,37 +29,70 @@ typedef long long ll;
 #define REVERSEA(arr, sz) reverse(ALLA(arr, sz))
 #define PERMUTE next_permutation
 #define TC(t) while (t--)
+#define PLI pair<ll, ll>
 
 #define INF 1e9
-#define MAX 50001
+#define MAX 10001
+#define ALLPATH 1023
+#define MOD 1000000000
 
 using namespace std;
 
-int n, m;
-int t;
-vector<int> d;
-int dp[MAX];
+int n;
+int d[MAX][7];
 
-int main(void){
-	FAST;
-    int sqrtMax = int(sqrt(MAX)+1);
-    d.resize(sqrtMax);
-    REP(i, sqrtMax){
-        d[i] = i*i;
-    }
-    cin>>n;
-    RESET(dp, MAX);
-    dp[0] = 0;
-    REPN(i, n){
-        int idx = 1;
-        while ((idx<sqrtMax&&i>=d[idx])){
-            dp[i] = min(dp[i], dp[i-d[idx]]+1);
-            idx++;
-        }
-    }
-    cout<<dp[n]<<endl;
+vector<PII> a;
+
+int f(int idx, int time, int cnt) {
+	if (idx==n) {
+		return 0;
+	}
+	int &res = d[idx][cnt];
+	if (res!=-1) {
+		return res;
+	}
+	res = INF;
+	if (time>=120 || cnt==6){
+		res = f(idx+1, a[idx].first, 1) + a[idx].second*4;
+	}else{
+		res = f(idx+1, a[idx].first, 1) + a[idx].second*4;
+		if(cnt==0){
+			res = min(res, f(idx+1, time+a[idx].first, cnt+1) + a[idx].second*4);
+		}else if (cnt==1) {
+			res = min(res, f(idx+1, time+a[idx].first, cnt+1) + a[idx].second*2);
+		}else{
+			cnt = min(cnt, 6);
+			res = min(res, f(idx+1, time+a[idx].first, cnt+1) + a[idx].second);
+		}
+	}
+	return res;
+}
+
+int solve() {
+	RESET(d, -1);
+	int res = f(0,0,0);
+	string s = "";
+	if(res%4==0){
+		s = ".00";
+	}else if(res%4==1){
+		s = ".25";
+	}else if(res%4==2){
+		s = ".50";
+	}else{
+		s = ".75";
+	}
+	cout<<res/4<<s<<endl;
     return 0;
 }
 
-장소로 가서 번호 or qr 코드
-문제 ox 풀고
+int main(){
+    FAST;
+    cin>>n;
+	a.resize(n);
+	REP(i, n){
+		cin>>a[i].first>>a[i].second;
+	}
+    solve();
+    return 0;
+}
+

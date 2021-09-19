@@ -29,37 +29,50 @@ typedef long long ll;
 #define REVERSEA(arr, sz) reverse(ALLA(arr, sz))
 #define PERMUTE next_permutation
 #define TC(t) while (t--)
+#define PLI pair<ll, ll>
 
 #define INF 1e9
-#define MAX 50001
+#define MAX 1024
+#define ALLPATH 1023
+#define MOD 1000000000
 
 using namespace std;
 
-int n, m;
-int t;
-vector<int> d;
-int dp[MAX];
+int n, T;
+vector<int> a, b;
+vector<int> idx;
+string s;
 
-int main(void){
-	FAST;
-    int sqrtMax = int(sqrt(MAX)+1);
-    d.resize(sqrtMax);
-    REP(i, sqrtMax){
-        d[i] = i*i;
-    }
-    cin>>n;
-    RESET(dp, MAX);
-    dp[0] = 0;
-    REPN(i, n){
-        int idx = 1;
-        while ((idx<sqrtMax&&i>=d[idx])){
-            dp[i] = min(dp[i], dp[i-d[idx]]+1);
-            idx++;
+int solve() {
+    int res = INF;
+    int one = idx[1];
+    if (a[0]>b[0]){
+        for(int j=1;j<b[0];j+=2){
+            res = min(res, idx[j]);
         }
+    }else{
+        res = 0;
     }
-    cout<<dp[n]<<endl;
+    cout<<res<<endl;
     return 0;
 }
 
-장소로 가서 번호 or qr 코드
-문제 ox 풀고
+int main(){
+    FAST;
+    cin>>T;
+    TC(T){
+        cin>>n;
+        a.clear();b.clear();idx.clear();
+        a.resize(n);b.resize(n);idx.resize(2*n+1);
+        REP(i, n){
+            cin>>a[i];
+            idx[a[i]] = i;
+        }
+        REP(i, n){
+            cin>>b[i];
+            idx[b[i]] = i;
+        }
+        solve();
+    }
+    return 0;
+}
