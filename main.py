@@ -7,48 +7,31 @@ from math import sqrt, gcd
 input = stdin.readline
 setrecursionlimit(10**5)
 
-# class DisjointSet:
-#     def __init__(self, n):
-#         self.data = list(range(n))
-#         self.size = n
+n, t = map(int, input().split())
 
-#     def find(self, index):
-#         return self.data[index]
+a = []
 
-#     def union(self, x, y):
-#         x, y = self.find(x), self.find(y)
-#         if x==y:
-#             return
-#         for i in range(self.size):
-#             if self.find(i) == y:
-#                 self.data[i] = x
+for _ in range(n):
+    s,x,y = map(int, input().split())
+    a.append((s,x,y))
 
-#     @property
-#     def length(self):
-#         return len(set(self.data))
+d = [[maxsize]*n for _ in range(n)]
 
-# n, c = map(int, input().split())
-# a = [list(map(int, input().split())) for _ in range(n)]
+for k in range(n):
+    for i in range(n):
+        for j in range(n):
+            if i==j:
+                d[i][j] = 0
+            elif d[i][j]==maxsize:
+                if a[i][0] and a[j][0]:
+                    d[i][j] = t
+                d[i][j] = min(abs(a[i][1]-a[j][1]) + abs(a[i][2]-a[j][2]), d[i][j])
+            else:
+                if a[i][0] and a[j][0]:
+                    d[i][j] = min(t, d[i][j])
+                d[i][j] = min(d[i][j], d[i][k]+d[k][j])
 
-# selected = []
 
-# def kruskal(v):
-#     ret = 0
-#     s = DisjointSet(v+1)
-#     a.sort(key=lambda x:x[2])
-#     for u,v,cost in a:  
-#         if s.find(u)==s.find(v):
-#             continue
-#         s.union(u,v)
-#         selected.append((u,v))
-#         ret += cost
-#     return ret
-
-n = int(input())
-a = list(map(int, input().split()))
-res = 0
-
-for i in range(1, n):
-    if(a[i]>a[i-1]):
-        res += 1
-print(res+1)
+for _ in range(int(input())):
+    x,y=map(int,input().split())
+    print(d[x-1][y-1])
