@@ -7,31 +7,21 @@ from math import sqrt, gcd
 input = stdin.readline
 setrecursionlimit(10**5)
 
-n, t = map(int, input().split())
+target = 10
+n = 1000
 
-a = []
+def func(m):
+	return True if m<=target else False
 
-for _ in range(n):
-    s,x,y = map(int, input().split())
-    a.append((s,x,y))
+l = 0
+r = n
+res = -1
+while l <= r:
+    m = (l + r) // 2
+    if func(m):
+        res = m
+        l = m + 1
+    else:
+        r = m - 1
 
-d = [[maxsize]*n for _ in range(n)]
-
-for k in range(n):
-    for i in range(n):
-        for j in range(n):
-            if i==j:
-                d[i][j] = 0
-            elif d[i][j]==maxsize:
-                if a[i][0] and a[j][0]:
-                    d[i][j] = t
-                d[i][j] = min(abs(a[i][1]-a[j][1]) + abs(a[i][2]-a[j][2]), d[i][j])
-            else:
-                if a[i][0] and a[j][0]:
-                    d[i][j] = min(t, d[i][j])
-                d[i][j] = min(d[i][j], d[i][k]+d[k][j])
-
-
-for _ in range(int(input())):
-    x,y=map(int,input().split())
-    print(d[x-1][y-1])
+print(res)
