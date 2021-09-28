@@ -7,21 +7,24 @@ from math import sqrt, gcd
 input = stdin.readline
 setrecursionlimit(10**5)
 
-target = 10
-n = 1000
 
-def func(m):
-	return True if m<=target else False
+n = int(input())
+a = [input().strip() for _ in range(n)]
 
-l = 0
-r = n
-res = -1
-while l <= r:
-    m = (l + r) // 2
-    if func(m):
-        res = m
-        l = m + 1
-    else:
-        r = m - 1
+def checkBit(s):
+    res = 0
+    for c in s:
+        res |= (1<<int(c))
+    return res
 
+cnt = [0] * (1<<10)
+for s in a:
+    cnt[checkBit(s)]+=1
+
+res = 0
+for i in range(1<<10):
+    res += (cnt[i]*(cnt[i]-1))//2
+    for j in range(i+1, 1<<10):
+        if (i&j)>0:
+            res += cnt[i]*cnt[j]
 print(res)
