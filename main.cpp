@@ -37,65 +37,24 @@ typedef long long ll;
 
 using namespace std;
 
-int n,m;
+int n;
+vector<int> a;
 
-#define PIS pair<int, string>
-
-vector<PIS> even;
-vector<PIS> odd;
-int cnt[11];
 
 int solve() {
-	sort(odd.begin(), odd.end(), [] (PIS a,PIS b){
-		if (a.first==b.first){
-			if (a.second.length()==b.second.length()){
-				return a.second<b.second;
-			}else{
-				return a.second.length()<b.second.length();
-			}
-		}else{
-			return a.first<b.first;
-		}
+	int sum = accumulate(a.begin(), a.end(), 0, [](int tmp, const int &val){
+		return tmp+val;
 	});
-	sort(even.begin(), even.end(), [] (PIS a,PIS b){
-		if (a.first==b.first){
-			if (a.second.length()==b.second.length()){
-				return a.second<b.second;
-			}else{
-				return a.second.length()<b.second.length();
-			}
-		}else{
-			return a.first<b.first;
-		}
-	});
-	for(auto od : odd){
-		cout<<od.first<<" "<<od.second<<'\n';
-	}
-	for(auto eve : even){
-		cout<<eve.first<<" "<<eve.second<<'\n';
-	}
+	
 	return 0;
 }
 
 int main(){
     FAST;
-	cin>>n>>m;
-	for(int i=0;;i++){
-		int c;
-		string s;
-		cin>>c>>s;
-		if(c==0){
-			break;
-		}
-		if(cnt[c]>=m){
-			continue;
-		}
-		cnt[c]++;
-		if (c&1){
-			odd.pb({c,s});
-		}else{
-			even.pb({c,s});
-		}
+	cin>>n;
+	a.resize(n);
+	REP(i, n){
+		cin>>a[i];
 	}
 	solve();
     return 0;
