@@ -8,25 +8,25 @@ from math import sqrt, gcd
 input = stdin.readline
 setrecursionlimit(10**6)
 
-n = int(input())
+n,m = map(int,input().split())
+a = list(map(int, input().split()))
 
+# q = deque(a)
 c = 0
-res = []
 
-while n and c<100:
-    if n%2:
-        res.append('[/]')
-        n *= 2
-    elif n&2:
-        res.append('[+]')
-        n -= 2
+for _ in range(m):
+    s = input().split()
+    if s[0]=='1':
+        p,q,r = map(int, s)
+        a[(c+q-1+n)%n] += r
     else:
-        res.append('[*]')
-        n //= 2
-    c += 1
-if n==0:
+        p,q = map(int, s)
+        if p==2:
+            c = (c+q)%n
+        else:
+            c = (c+n-q)%n
     print(c)
-    res.reverse()
-    print(' '.join(map(str, res)))
-else:
-    print(-1)
+    print(a)
+        
+print(*a[c:],end=' ')
+print(*a[:c])
