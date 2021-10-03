@@ -1,8 +1,20 @@
-#include<bits/stdc++.h>
-
+#include <bits/stdc++.h>
+#define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+#define FOR(w, a, n) for(int w=(a);w<(n);++w)
+#define ALL(a) (a).begin(),(a).end()
+#define CASES(t) int aa; cin >> aa; for(int t=1;t<=aa;t++)
+#define MOD 2520
+#define INF 9223372036854775807
 typedef long long ll;
+using namespace std;
 
+struct Load {
+    int index;
+    int length;
+    int v_limit;
+};
 
+<<<<<<< HEAD
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
@@ -103,6 +115,7 @@ int solve() {
     cout<<divide_and_conquer(0, n-1)<<'\n';
 	return 0;
 }
+
 int main(){
     FAST;
     cin>>n;
