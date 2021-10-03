@@ -6,42 +6,29 @@ from bisect import *
 
 input = stdin.readline
 setrecursionlimit(10**5)
-MAX = 400001
 
-n = int(input().strip())
-d = {}
-rd = {}
-depth = [0] * MAX
-a = [[] for _ in range(MAX)]
+# n = int(input())
+# start = list(map(int, input().split()))
 
-for _ in range(n):
-    p, q = input().split()
-    if not d.get(p):
-        d[p] = len(d)+1
-        rd[d[p]] = p
-    if not d.get(q):
-        d[q] = len(d)+1
-        rd[d[q]] = q
-    p = d.get(p)
-    q = d.get(q)
-    depth[q] += 1
-    a[p].append(q)
+# dx, dy = (2, 2, 1, 1, -1, -1, -2, -2), (-1, 1, -2, 2, -2, 2, -1, 1)
 
-q = deque()
-for i in range(1, len(d)+1):
-    if depth[i]==0:
-        q.append((rd[i], i))
+# def dfs(x, y):
+#     return
 
-cnt = 0
-res = []
-while q:
-    q = deque(sorted(q))
-    for __ in range(len(q)):
-        _, cur = q.popleft()
-        cnt += 1
-        res.append(rd[cur])
-        for next in a[cur]:
-            depth[next] -= 1
-            if depth[next]==0:
-                q.append((rd[next], next))
-print('\n'.join(map(str,res)) if len(res)==len(d) else -1)
+a = [8,18,15,10,7,14]
+def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    lesser_arr, equal_arr, greater_arr = [], [], []
+    for num in arr:
+        if num < pivot:
+            lesser_arr.append(num)
+        elif num > pivot:
+            greater_arr.append(num)
+        else:
+            equal_arr.append(num)
+    print(lesser_arr, equal_arr, greater_arr)
+    print(lesser_arr+equal_arr+greater_arr)
+    return quick_sort(lesser_arr) + equal_arr + quick_sort(greater_arr)
+print(quick_sort(a))
