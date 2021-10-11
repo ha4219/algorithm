@@ -1,6 +1,4 @@
-// #include<bits/stdc++.h>
-#include<iostream>
-#include<vector>
+#include<bits/stdc++.h>
 
 typedef long long ll;
 
@@ -39,38 +37,62 @@ typedef long long ll;
 
 using namespace std;
 
-vector<int> a;
+
+int T, n;
+vector<ll> a;
+
+int solve() {
+    ll res = 0;
+    ll sub = 0;
+    REP(i, n){
+        sub += a[i];
+    }
+    sub*=2;
+    if(sub%n){
+        cout<<0<<'\n';
+        return 0;
+    }
+    int k = sub/n;
+    map<int, ll> m;
+    REP(i, n){
+        auto tmp = m.find(k-a[i]);
+        if(tmp==m.end()){
+            m.insert({k-a[i],1});
+        }else{
+            tmp->second++;
+        }
+    }
+    map<int, bool> v;
+    REP(i, n){
+        auto tmp = m.find(a[i]);
+        auto visit = v.find(a[i]);
+        if(visit!=v.end()){
+            continue;
+        }
+        if(tmp!=m.end()){
+            if(k-a[i]==a[i]){
+                res += (tmp->second*(tmp->second-1));
+            }else{
+                res += m.find(k-a[i])->second*tmp->second;
+            }
+        }
+        v.insert({a[i], 1});
+    }
+    res /= 2;
+    cout<<res<<'\n';
+    return 0;
+}
 
 int main(){
     FAST;
-    int n,m;
-    cin>>n>>m;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        cin>>arr[i];
+    cin>>T;
+    TC(T) {
+        cin>>n;
+        a.resize(n);
+        REP(i, n){
+            cin>>a[i];
+        }
+        solve();
     }
-    int res=0;
-    for(int s=0;s<n;s++){
-        int e=s;
-        int sum=0;
-        sum+=arr[s];
-        if(sum>m){
-            break;
-        }
-        else if(sum==m){
-            res++;            
-        }
-        else if(sum<m){
-            for(e=s+1;e<=n;e++){
-                sum+=arr[e];
-                if(sum==m){
-                    res++;
-                }
-            }
-
-        }
-    }
-    cout<<res;
-    
     return 0;
 }

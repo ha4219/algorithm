@@ -1,6 +1,4 @@
-// #include<bits/stdc++.h>
-#include<iostream>
-#include<vector>
+#include<bits/stdc++.h>
 
 typedef long long ll;
 
@@ -39,38 +37,48 @@ typedef long long ll;
 
 using namespace std;
 
-vector<int> a;
+
+int T, n;
+vector<vector<int>> a;
+
+int solve() {
+    if(n&1) return 0;
+    for(int i=0;i<4;i++){
+        for(int j=i+1;j<5;j++){
+            int cnt[] = {0,0,0};
+            for(int f=0;f<n;f++){
+                if(a[f][i]&&a[f][j]){
+                    cnt[2]++;
+                }else if(a[f][i]){
+                    cnt[0]++;
+                }else if(a[f][j]){
+                    cnt[1]++;
+                }
+            }
+            if((cnt[0]+cnt[1]+cnt[2]==n)&&(cnt[0]<=n/2)&&(cnt[1]<=n/2)){
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
 
 int main(){
     FAST;
-    int n,m;
-    cin>>n>>m;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        cin>>arr[i];
-    }
-    int res=0;
-    for(int s=0;s<n;s++){
-        int e=s;
-        int sum=0;
-        sum+=arr[s];
-        if(sum>m){
-            break;
-        }
-        else if(sum==m){
-            res++;            
-        }
-        else if(sum<m){
-            for(e=s+1;e<=n;e++){
-                sum+=arr[e];
-                if(sum==m){
-                    res++;
-                }
+    cin>>T;
+    TC(T) {
+        cin>>n;
+        a.resize(n, vector<int> (5, 0));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<5;j++){
+                cin>>a[i][j];
             }
-
+        }
+        if(solve()){
+            cout<<"YES\n";
+        }else{
+            cout<<"NO\n";
         }
     }
-    cout<<res;
-    
     return 0;
 }

@@ -1,6 +1,4 @@
-// #include<bits/stdc++.h>
-#include<iostream>
-#include<vector>
+#include<bits/stdc++.h>
 
 typedef long long ll;
 
@@ -39,38 +37,36 @@ typedef long long ll;
 
 using namespace std;
 
-vector<int> a;
+string a[2];
+int T;
+int n;
+int dx[] = {0, 1};
+int dy[] = {1, 1};
+
+int solve() {
+    int res = 0;
+    for(int i=0;i<n;i++){
+        if((a[0][i]=='0')||(a[1][i]=='0')){
+            res++;
+        }
+    }
+    if(res==n){
+        cout<<"YES"<<'\n';
+    }else{
+        cout<<"NO"<<'\n';
+    }
+    return 0;
+}
 
 int main(){
     FAST;
-    int n,m;
-    cin>>n>>m;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        cin>>arr[i];
-    }
-    int res=0;
-    for(int s=0;s<n;s++){
-        int e=s;
-        int sum=0;
-        sum+=arr[s];
-        if(sum>m){
-            break;
-        }
-        else if(sum==m){
-            res++;            
-        }
-        else if(sum<m){
-            for(e=s+1;e<=n;e++){
-                sum+=arr[e];
-                if(sum==m){
-                    res++;
-                }
-            }
+    cin>>T;
+    TC(T) {
+        cin>>n;
+        cin>>a[0];
+        cin>>a[1];
 
-        }
+        solve();
     }
-    cout<<res;
-    
     return 0;
 }
