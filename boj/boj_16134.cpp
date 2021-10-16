@@ -31,7 +31,7 @@ typedef long long ll;
 #define TC(t) while (t--)
 
 #define INF 1e9
-#define MAX 4000001
+#define MAX 101
 #define ALLPATH 1023
 #define MOD 1000000007
 
@@ -41,8 +41,16 @@ ll n, k;
 
 int solve()
 {
-    vector<int> v;
-    v.resize(30, 0);
+    ll nn = 1;
+    ll kk = 1;
+    ll nk = 1;
+    for(ll i=1;i<=n;i++){
+        if (i<=k) kk = (kk*i)%MOD;
+        if (i<=(n-k)) nk = (nk*i)%MOD;
+        nn = (nn*i)%MOD;
+    }
+    ll knk = (kk*nk)%MOD;
+    vector<int> v(30, 0);
     int target = MOD - 2;
     for(int i=0;i<30;i++){
         if(target&1) v[i] = 1;
@@ -51,23 +59,18 @@ int solve()
     ll res = 1;
     for(int i=0;i<30;i++){
         if(v[i]){
-            res = (res * k)%MOD;
+            res = (res * knk)%MOD;
         }
-        k = (k*k)%MOD;
+        knk = (knk*knk)%MOD;
     }
-    res = (res*n)%MOD;
+    res = (res*nn)%MOD;
     cout<<res<<'\n';
     return 0;
 }
 
 int main(){
     FAST;
-    int t;
-    cin>>t;
-    
-    TC(t){
-        cin>>n>>k;
-        solve();
-    }
+    cin>>n>>k;
+    solve();
     return 0;
 }
