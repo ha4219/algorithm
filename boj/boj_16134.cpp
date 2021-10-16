@@ -38,30 +38,16 @@ typedef long long ll;
 using namespace std;
 
 ll n, k;
-
+vector<int> v;
 int solve()
 {
-    ll nn = 1;
-    ll kk = 1;
-    ll nk = 1;
-    for(ll i=1;i<=n;i++){
-        if (i<=k) kk = (kk*i)%MOD;
-        if (i<=(n-k)) nk = (nk*i)%MOD;
-        nn = (nn*i)%MOD;
-    }
-    ll knk = (kk*nk)%MOD;
-    vector<int> v(30, 0);
-    int target = MOD - 2;
-    for(int i=0;i<30;i++){
-        if(target&1) v[i] = 1;
-        target >>= 1;
-    }
+    ll nn = n;
     ll res = 1;
     for(int i=0;i<30;i++){
         if(v[i]){
-            res = (res * knk)%MOD;
+            res = (res * nn)%MOD;
         }
-        knk = (knk*knk)%MOD;
+        nn = (nn*nn)%MOD;
     }
     res = (res*nn)%MOD;
     cout<<res<<'\n';
@@ -70,7 +56,16 @@ int solve()
 
 int main(){
     FAST;
-    cin>>n>>k;
-    solve();
+    v.resize(30, 0);
+    int target = MOD - 1;
+    for(int i=0;i<30;i++){
+        if(target&1) v[i] = 1;
+        target >>= 1;
+    }
+    while(1){
+        cin>>k>>n;
+        if(n==k&&n==0) break;
+        solve();
+    }
     return 0;
 }
