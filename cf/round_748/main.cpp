@@ -1,8 +1,8 @@
 #include<bits/stdc++.h>
-
+ 
 typedef long long ll;
-
-
+ 
+ 
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
@@ -29,41 +29,66 @@ typedef long long ll;
 #define REVERSEA(arr, sz) reverse(ALLA(arr, sz))
 #define PERMUTE next_permutation
 #define TC(t) while (t--)
-
+ 
 #define INF 1e9
-#define MAX 101
+#define MAX 2000002
 #define ALLPATH 1023
 #define MOD 1000000007
-
+ 
 using namespace std;
 
-vector<PII> a;
-int n;
+int t;
+int n, k;
+string _;
+
+int dfs(vector<vector<int>> &a, vector<int> &v,int cur, int dep) {
+    if (v[cur]<dep){
+        return 0;
+    }
+    v[cur] = dep;
+    for(auto next: a[cur]){
+        dfs(a,v,next, dep+1);
+    }
+    return 0;
+}
 
 int solve(){
-    sort(a.begin(), a.end());
-    vector<int> res(n);
-    int idx = 0;
-    res[0] = 0;
-    for(int i=1;i<n;i++){
-        if(a[i-1].fi!=a[i].fi) idx++;
-        res[a[i].se] = idx;
+    cin>>n>>k;
+    vector<vector<int>> a(n+1);
+    vector<int> degree(n+1, 0);
+    vector<int> v(n+1, INF);
+
+    REP(i,n-1){
+        int cur, target;
+        cin>>cur>>target;
+        a[cur].pb(target);
+        a[target].pb(cur);
+        degree[cur]++;
+        degree[target]++;
     }
-    REP(i,n){
-        cout<<res[i]<<" ";
+    
+    REPN(i, n){
+        if(degree[i]==1){
+            dfs(a, v, i, 1);
+        }
     }
-    cout<<'\n';
+    int res = 0;
+    // cout<<"----"<<endl;
+    // REPN(i, n){
+    //     cout<<i<<" "<<v[i]<<'\n';
+    // }
+    // cout<<"----"<<endl;
+    REPN(i,n){
+        res += (v[i]!=INF&&(v[i]-k>=1));
+    }
+    cout<<res<<'\n';
     return 0;
 }
 
 int main(){
     FAST;
-    cin>>n;
-    a.resize(n);
-    REP(i,n){
-        cin>>a[i].fi;
-        a[i].se=i;
+    TC(t){
+        solve();
     }
-    solve();
     return 0;
 }

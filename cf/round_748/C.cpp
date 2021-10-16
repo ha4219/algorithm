@@ -31,39 +31,41 @@ typedef long long ll;
 #define TC(t) while (t--)
 
 #define INF 1e9
-#define MAX 101
+#define MAX 400001
 #define ALLPATH 1023
 #define MOD 1000000007
 
 using namespace std;
 
-vector<PII> a;
-int n;
+int t;
+int n, k;
+vector<int> a;
 
 int solve(){
     sort(a.begin(), a.end());
-    vector<int> res(n);
-    int idx = 0;
-    res[0] = 0;
-    for(int i=1;i<n;i++){
-        if(a[i-1].fi!=a[i].fi) idx++;
-        res[a[i].se] = idx;
+    int cat = 0;
+    while (1)
+    {
+        if(a.size()==0) break;
+        if(a.back()<=cat) break;
+
+        cat += n - a.back();
+        a.pop_back();
     }
-    REP(i,n){
-        cout<<res[i]<<" ";
-    }
-    cout<<'\n';
+    cout<<k-a.size()<<'\n';
     return 0;
 }
 
 int main(){
     FAST;
-    cin>>n;
-    a.resize(n);
-    REP(i,n){
-        cin>>a[i].fi;
-        a[i].se=i;
+    cin>>t;
+    TC(t){
+        cin>>n>>k;
+        a.resize(k);
+        REP(i, k){
+            cin>>a[i];
+        }
+        solve();
     }
-    solve();
     return 0;
 }

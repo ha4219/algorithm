@@ -37,33 +37,54 @@ typedef long long ll;
 
 using namespace std;
 
-vector<PII> a;
-int n;
+int t;
+vector<int> a;
+vector<int> v;
 
 int solve(){
-    sort(a.begin(), a.end());
-    vector<int> res(n);
-    int idx = 0;
-    res[0] = 0;
-    for(int i=1;i<n;i++){
-        if(a[i-1].fi!=a[i].fi) idx++;
-        res[a[i].se] = idx;
+    int tmp = -1;
+    for(auto num: a){
+        tmp = max(tmp, num);
     }
-    REP(i,n){
-        cout<<res[i]<<" ";
+    int cnt = 0;
+    REP(i, 3){
+        if(tmp==a[i]){
+            cnt++;
+            v[i] = 1;
+        }else{
+            v[i] = 0;
+        }
     }
-    cout<<'\n';
+    if(cnt>1){
+        REP(i, 3){
+            if(v[i]){
+                a[i] = 1;
+            }else{
+                a[i] = tmp - a[i] + 1;
+            }
+        }
+    }else{
+        REP(i, 3){
+            if(v[i]){
+                a[i] = 0;
+            }else{
+                a[i] = tmp - a[i] + 1;
+            }
+        }
+    }
+    
+    cout<<a[0]<<" "<<a[1]<<" "<<a[2]<<'\n';
     return 0;
 }
 
 int main(){
     FAST;
-    cin>>n;
-    a.resize(n);
-    REP(i,n){
-        cin>>a[i].fi;
-        a[i].se=i;
+    cin>>t;
+    a.resize(3);
+    v.resize(3);
+    TC(t){
+        cin>>a[0]>>a[1]>>a[2];
+        solve();
     }
-    solve();
     return 0;
 }

@@ -1,8 +1,8 @@
 #include<bits/stdc++.h>
-
+ 
 typedef long long ll;
-
-
+ 
+ 
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
@@ -29,41 +29,56 @@ typedef long long ll;
 #define REVERSEA(arr, sz) reverse(ALLA(arr, sz))
 #define PERMUTE next_permutation
 #define TC(t) while (t--)
-
+ 
 #define INF 1e9
-#define MAX 101
+#define MAX 400001
 #define ALLPATH 1023
 #define MOD 1000000007
-
+ 
 using namespace std;
-
-vector<PII> a;
+ 
+int t;
 int n;
-
+vector<int> a;
+ 
 int solve(){
-    sort(a.begin(), a.end());
-    vector<int> res(n);
-    int idx = 0;
-    res[0] = 0;
-    for(int i=1;i<n;i++){
-        if(a[i-1].fi!=a[i].fi) idx++;
-        res[a[i].se] = idx;
+    set<int> s;
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            int tmp = abs(a[i]-a[j]);
+            if (tmp==0) continue;
+            s.insert(tmp);
+        }
     }
-    REP(i,n){
-        cout<<res[i]<<" ";
+    bool first = 1;
+    int res;
+    // cout<<"--------------"<<endl;
+    for(auto num: s){
+        if(first) {
+            res = num;
+            first = 0;
+        }
+        res = __gcd(res, num);
     }
-    cout<<'\n';
+    // cout<<"--------------"<<endl;
+    if(s.size()==0){
+        cout<<"-1\n";
+    }else{
+        cout<<res<<'\n';
+    }
     return 0;
 }
-
+ 
 int main(){
     FAST;
-    cin>>n;
-    a.resize(n);
-    REP(i,n){
-        cin>>a[i].fi;
-        a[i].se=i;
+    cin>>t;
+    TC(t){
+        cin>>n;
+        a.resize(n);
+        REP(i, n){
+            cin>>a[i];
+        }
+        solve();
     }
-    solve();
     return 0;
 }

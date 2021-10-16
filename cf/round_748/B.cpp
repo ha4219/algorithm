@@ -37,33 +37,77 @@ typedef long long ll;
 
 using namespace std;
 
-vector<PII> a;
-int n;
+int t;
+string s;
 
 int solve(){
-    sort(a.begin(), a.end());
-    vector<int> res(n);
+    int sl = s.length();
+    int res = INF;
+
+    char c[] = {'0', '0'};
+    // 00
     int idx = 0;
-    res[0] = 0;
-    for(int i=1;i<n;i++){
-        if(a[i-1].fi!=a[i].fi) idx++;
-        res[a[i].se] = idx;
+    int cnt = 0;
+    for(int i=sl-1;i>-1&&idx<2;i--){
+        if(s[i]==c[idx]){
+            idx++;
+        }else{
+            cnt++;
+        }
     }
-    REP(i,n){
-        cout<<res[i]<<" ";
+    res = min(res, cnt);
+
+    c[0] = '5';
+    c[1] = '2';
+    // 00
+    idx = 0;
+    cnt = 0;
+    for(int i=sl-1;i>-1&&idx<2;i--){
+        if(s[i]==c[idx]){
+            idx++;
+        }else{
+            cnt++;
+        }
     }
-    cout<<'\n';
+    res = min(res, cnt);
+
+    c[0] = '0';
+    c[1] = '5';
+    // 00
+    idx = 0;
+    cnt = 0;
+    for(int i=sl-1;i>-1&&idx<2;i--){
+        if(s[i]==c[idx]){
+            idx++;
+        }else{
+            cnt++;
+        }
+    }
+    res = min(res, cnt);
+
+    c[0] = '5';
+    c[1] = '7';
+    // 00
+    idx = 0;
+    cnt = 0;
+    for(int i=sl-1;i>-1&&idx<2;i--){
+        if(s[i]==c[idx]){
+            idx++;
+        }else{
+            cnt++;
+        }
+    }
+    res = min(res, cnt);
+    cout<<res<<'\n';
     return 0;
 }
 
 int main(){
     FAST;
-    cin>>n;
-    a.resize(n);
-    REP(i,n){
-        cin>>a[i].fi;
-        a[i].se=i;
+    cin>>t;
+    TC(t){
+        cin>>s;
+        solve();
     }
-    solve();
     return 0;
 }
