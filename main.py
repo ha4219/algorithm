@@ -7,3 +7,28 @@ MAX = 100001
 setrecursionlimit(10**5)
 input = stdin.readline
 
+n, r, c, t = map(int, input().split())
+a = list(map(int, input().split()))
+s = [0] * (4*n)
+qs = [list(map(int, input().split()))]
+
+def u(i, v, node, nL, nR):
+  if i < nL or i > nR:
+    return s[node]
+  if nL == nR:
+    s[node] = v
+    return s[node]
+  m = (nL + nR) // 2
+  s[node] = u(i, v, node*2, nL, m) + u(i, v, node*2+1, m+1, nR)
+  return s[node]
+
+def q(l, r, node, nL, nR):
+  if r < nL or l > nR:
+    return 0
+  if l<=nL and nR<=r:
+    return s[node]
+  m = (nL + nR) // 2
+  return q(l, r, node*2, nL, m) + q(l, r, node*2+1, m+1, nR)
+
+# for i, v in enumerate(a):
+#   u(i, v, 1, 0, n-1)
