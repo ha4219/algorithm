@@ -1,7 +1,8 @@
 #include<bits/stdc++.h>
-
+ 
 typedef long long ll;
-
+ 
+ 
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
@@ -28,41 +29,56 @@ typedef long long ll;
 #define REVERSEA(arr, sz) reverse(ALLA(arr, sz))
 #define PERMUTE next_permutation
 #define TC(t) while (t--)
-
+ 
 #define INF 1e9
-#define MAX 100
+#define MAX 400001
+#define ALLPATH 1023
 #define MOD 1000000007
-
+ 
 using namespace std;
-
+ 
+int t;
 int n;
-int d[10] = {6,2,5,5,4,5,6,3,7,6};
-
-int cal(int val) {
-    return d[val/10] + d[val % 10];
-}
-
-int solve() {
-    cin>>n;
-
-    for (int i=0;i<MAX;i++) {
-        for (int j=0;j<=i;j++) {
-            int res = 4;
-            res += cal(i);
-            res += cal(j);
-            res += cal(i - j);
-            if (res == n) {
-                cout<<j/10<<j%10<<'+'<<(i-j)/10<<(i-j)%10<<'='<<i/10<<i%10<<'\n';
-                return 0;
-            }
+vector<int> a;
+ 
+int solve(){
+    set<int> s;
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            int tmp = abs(a[i]-a[j]);
+            if (tmp==0) continue;
+            s.insert(tmp);
         }
     }
-    cout<<"impossible\n";
+    bool first = 1;
+    int res;
+    // cout<<"--------------"<<endl;
+    for(auto num: s){
+        if(first) {
+            res = num;
+            first = 0;
+        }
+        res = __gcd(res, num);
+    }
+    // cout<<"--------------"<<endl;
+    if(s.size()==0){
+        cout<<"-1\n";
+    }else{
+        cout<<res<<'\n';
+    }
     return 0;
 }
-
-int main() {
+ 
+int main(){
     FAST;
-    solve();
+    cin>>t;
+    TC(t){
+        cin>>n;
+        a.resize(n);
+        REP(i, n){
+            cin>>a[i];
+        }
+        solve();
+    }
     return 0;
 }

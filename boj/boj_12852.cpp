@@ -2,6 +2,7 @@
 
 typedef long long ll;
 
+
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
@@ -29,39 +30,43 @@ typedef long long ll;
 #define PERMUTE next_permutation
 #define TC(t) while (t--)
 
-#define INF 1e9
-#define MAX 100
+#define INF 1000000000
+#define MAX 2001
+#define ALLPATH 1023
 #define MOD 1000000007
 
 using namespace std;
-
 int n;
-int d[10] = {6,2,5,5,4,5,6,3,7,6};
 
-int cal(int val) {
-    return d[val/10] + d[val % 10];
-}
-
-int solve() {
+int solve(){
     cin>>n;
-
-    for (int i=0;i<MAX;i++) {
-        for (int j=0;j<=i;j++) {
-            int res = 4;
-            res += cal(i);
-            res += cal(j);
-            res += cal(i - j);
-            if (res == n) {
-                cout<<j/10<<j%10<<'+'<<(i-j)/10<<(i-j)%10<<'='<<i/10<<i%10<<'\n';
-                return 0;
-            }
-        }
+    vector<int> a;
+    a.resize(n+1);
+    a[1] = 0;
+    for(int i=2;i<=n;i++){
+        a[i] = a[i-1] + 1;
+        if (i%2==0) a[i]=min(a[i],a[i/2]+1);
+        if (i%3==0) a[i]=min(a[i],a[i/3]+1);
     }
-    cout<<"impossible\n";
+    int i = n;
+    vector<int> res;
+    while (1){
+        res.pb(i);
+        if (i==1) break;
+        int tmp = i-1;
+        if (i%2==0&&a[tmp]>a[i/2]) tmp = i/2;
+        if (i%3==0&&a[tmp]>a[i/3]) tmp = i/3;
+        i = tmp;
+    }
+    cout<<a[n]<<'\n';
+    for(auto num: res){
+        cout<<num<<' ';
+    }
+    cout<<'\n';
     return 0;
 }
 
-int main() {
+int main(){
     FAST;
     solve();
     return 0;

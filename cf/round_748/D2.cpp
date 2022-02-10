@@ -1,7 +1,8 @@
 #include<bits/stdc++.h>
-
+ 
 typedef long long ll;
-
+ 
+ 
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
@@ -28,41 +29,67 @@ typedef long long ll;
 #define REVERSEA(arr, sz) reverse(ALLA(arr, sz))
 #define PERMUTE next_permutation
 #define TC(t) while (t--)
-
+ 
 #define INF 1e9
-#define MAX 100
+#define MAX 2000002
+#define ALLPATH 1023
 #define MOD 1000000007
-
+ 
 using namespace std;
-
+ 
+int v[MAX];
+int t;
 int n;
-int d[10] = {6,2,5,5,4,5,6,3,7,6};
-
-int cal(int val) {
-    return d[val/10] + d[val % 10];
-}
-
-int solve() {
-    cin>>n;
-
-    for (int i=0;i<MAX;i++) {
-        for (int j=0;j<=i;j++) {
-            int res = 4;
-            res += cal(i);
-            res += cal(j);
-            res += cal(i - j);
-            if (res == n) {
-                cout<<j/10<<j%10<<'+'<<(i-j)/10<<(i-j)%10<<'='<<i/10<<i%10<<'\n';
-                return 0;
-            }
+vector<int> a;
+ 
+int solve(){
+    sort(a.begin(), a.end());
+    for(int i=1;i<n;i++){
+        a[i]-=a[0];
+    }
+    a[0] = 0;
+    int cnt = 1;
+    for(int i=0;i<n;i++){
+        int j=i;
+        while(j<n&&a[i]==a[j]) j++;
+        cnt = max(cnt, j-i);
+        i = j;
+    }
+    if (cnt>=n/2) {
+        puts("-1");
+        return 0;
+    }
+    int res = 1;
+    for(int gcd=MAX-1;gcd>1;gcd--){
+        bool can = false;
+        REP(i, n){
+            can |= (++v[a[i] % gcd]>=n/2);
+        }
+ 
+        REP(i, n){
+            v[a[i] % gcd] = 0;
+        }
+        if(can){
+            res = gcd;
+            break;
         }
     }
-    cout<<"impossible\n";
+ 
+    printf("%d\n", res);
     return 0;
 }
-
-int main() {
-    FAST;
-    solve();
+ 
+int main(){
+    scanf("%d", &t);
+    TC(t){
+        // cin>>n;
+        scanf("%d", &n);
+        a.resize(n);
+        REP(i, n){
+            // cin>>a[i];
+            scanf("%d", &a[i]);
+        }
+        solve();
+    }
     return 0;
 }

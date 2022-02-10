@@ -2,6 +2,7 @@
 
 typedef long long ll;
 
+
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
@@ -30,39 +31,46 @@ typedef long long ll;
 #define TC(t) while (t--)
 
 #define INF 1e9
-#define MAX 100
+#define MAX 101
+#define ALLPATH 1023
 #define MOD 1000000007
 
 using namespace std;
 
-int n;
-int d[10] = {6,2,5,5,4,5,6,3,7,6};
+ll n;
+map<ll, ll> m;
 
-int cal(int val) {
-    return d[val/10] + d[val % 10];
+ll f(ll n){
+    if (m.find(n)!=m.end()){
+        return m[n];
+    }
+    ll res;
+    if(n&1){
+        ll tmp1 = f((n+1)/2);
+        ll tmp2 = f((n+1)/2-1);
+        res = ((tmp1*tmp1)%MOD + (tmp2*tmp2)%MOD)%MOD;
+    }else{
+        ll tmp1 = f(n/2);
+        ll tmp2 = f(n/2-1);
+        res = (tmp1*((tmp1+2*tmp2)%MOD))%MOD;
+    }
+    m.insert({n, res});
+    return res;
 }
 
-int solve() {
-    cin>>n;
-
-    for (int i=0;i<MAX;i++) {
-        for (int j=0;j<=i;j++) {
-            int res = 4;
-            res += cal(i);
-            res += cal(j);
-            res += cal(i - j);
-            if (res == n) {
-                cout<<j/10<<j%10<<'+'<<(i-j)/10<<(i-j)%10<<'='<<i/10<<i%10<<'\n';
-                return 0;
-            }
-        }
-    }
-    cout<<"impossible\n";
+int solve()
+{
+    m.insert({0,0});
+    m.insert({1,1});
+    m.insert({2,1});
+    m.insert({3,2});
+    cout<<f(n)<<'\n';
     return 0;
 }
 
-int main() {
+int main(){
     FAST;
+    cin>>n;
     solve();
     return 0;
 }

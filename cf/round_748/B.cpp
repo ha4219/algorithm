@@ -2,6 +2,7 @@
 
 typedef long long ll;
 
+
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
@@ -30,39 +31,83 @@ typedef long long ll;
 #define TC(t) while (t--)
 
 #define INF 1e9
-#define MAX 100
+#define MAX 101
+#define ALLPATH 1023
 #define MOD 1000000007
 
 using namespace std;
 
-int n;
-int d[10] = {6,2,5,5,4,5,6,3,7,6};
+int t;
+string s;
 
-int cal(int val) {
-    return d[val/10] + d[val % 10];
-}
+int solve(){
+    int sl = s.length();
+    int res = INF;
 
-int solve() {
-    cin>>n;
-
-    for (int i=0;i<MAX;i++) {
-        for (int j=0;j<=i;j++) {
-            int res = 4;
-            res += cal(i);
-            res += cal(j);
-            res += cal(i - j);
-            if (res == n) {
-                cout<<j/10<<j%10<<'+'<<(i-j)/10<<(i-j)%10<<'='<<i/10<<i%10<<'\n';
-                return 0;
-            }
+    char c[] = {'0', '0'};
+    // 00
+    int idx = 0;
+    int cnt = 0;
+    for(int i=sl-1;i>-1&&idx<2;i--){
+        if(s[i]==c[idx]){
+            idx++;
+        }else{
+            cnt++;
         }
     }
-    cout<<"impossible\n";
+    res = min(res, cnt);
+
+    c[0] = '5';
+    c[1] = '2';
+    // 00
+    idx = 0;
+    cnt = 0;
+    for(int i=sl-1;i>-1&&idx<2;i--){
+        if(s[i]==c[idx]){
+            idx++;
+        }else{
+            cnt++;
+        }
+    }
+    res = min(res, cnt);
+
+    c[0] = '0';
+    c[1] = '5';
+    // 00
+    idx = 0;
+    cnt = 0;
+    for(int i=sl-1;i>-1&&idx<2;i--){
+        if(s[i]==c[idx]){
+            idx++;
+        }else{
+            cnt++;
+        }
+    }
+    res = min(res, cnt);
+
+    c[0] = '5';
+    c[1] = '7';
+    // 00
+    idx = 0;
+    cnt = 0;
+    for(int i=sl-1;i>-1&&idx<2;i--){
+        if(s[i]==c[idx]){
+            idx++;
+        }else{
+            cnt++;
+        }
+    }
+    res = min(res, cnt);
+    cout<<res<<'\n';
     return 0;
 }
 
-int main() {
+int main(){
     FAST;
-    solve();
+    cin>>t;
+    TC(t){
+        cin>>s;
+        solve();
+    }
     return 0;
 }

@@ -2,6 +2,7 @@
 
 typedef long long ll;
 
+
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
@@ -30,39 +31,54 @@ typedef long long ll;
 #define TC(t) while (t--)
 
 #define INF 1e9
-#define MAX 100
-#define MOD 1000000007
+#define MAX 100001
+#define ALLPATH 1023
+#define MOD 1000000000
 
 using namespace std;
 
-int n;
-int d[10] = {6,2,5,5,4,5,6,3,7,6};
 
-int cal(int val) {
-    return d[val/10] + d[val % 10];
-}
+int T, n;
+vector<vector<int>> a;
 
 int solve() {
-    cin>>n;
-
-    for (int i=0;i<MAX;i++) {
-        for (int j=0;j<=i;j++) {
-            int res = 4;
-            res += cal(i);
-            res += cal(j);
-            res += cal(i - j);
-            if (res == n) {
-                cout<<j/10<<j%10<<'+'<<(i-j)/10<<(i-j)%10<<'='<<i/10<<i%10<<'\n';
-                return 0;
+    if(n&1) return 0;
+    for(int i=0;i<4;i++){
+        for(int j=i+1;j<5;j++){
+            int cnt[] = {0,0,0};
+            for(int f=0;f<n;f++){
+                if(a[f][i]&&a[f][j]){
+                    cnt[2]++;
+                }else if(a[f][i]){
+                    cnt[0]++;
+                }else if(a[f][j]){
+                    cnt[1]++;
+                }
+            }
+            if((cnt[0]+cnt[1]+cnt[2]==n)&&(cnt[0]<=n/2)&&(cnt[1]<=n/2)){
+                return 1;
             }
         }
     }
-    cout<<"impossible\n";
     return 0;
 }
 
-int main() {
+int main(){
     FAST;
-    solve();
+    cin>>T;
+    TC(T) {
+        cin>>n;
+        a.resize(n, vector<int> (5, 0));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<5;j++){
+                cin>>a[i][j];
+            }
+        }
+        if(solve()){
+            cout<<"YES\n";
+        }else{
+            cout<<"NO\n";
+        }
+    }
     return 0;
 }

@@ -2,6 +2,7 @@
 
 typedef long long ll;
 
+
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
@@ -30,38 +31,36 @@ typedef long long ll;
 #define TC(t) while (t--)
 
 #define INF 1e9
-#define MAX 100
+#define MAX 1000001
 #define MOD 1000000007
 
 using namespace std;
 
-int n;
-int d[10] = {6,2,5,5,4,5,6,3,7,6};
-
-int cal(int val) {
-    return d[val/10] + d[val % 10];
-}
+int n, m;
+int d[41];
+vector<int> a;
 
 int solve() {
     cin>>n;
-
-    for (int i=0;i<MAX;i++) {
-        for (int j=0;j<=i;j++) {
-            int res = 4;
-            res += cal(i);
-            res += cal(j);
-            res += cal(i - j);
-            if (res == n) {
-                cout<<j/10<<j%10<<'+'<<(i-j)/10<<(i-j)%10<<'='<<i/10<<i%10<<'\n';
-                return 0;
-            }
-        }
+    d[0] = 1;
+    d[1] = 1;
+    d[2] = 2;
+    for(int i=3;i<=n;i++) d[i] = d[i-1]+d[i-2];
+    cin>>m;
+    a.resize(m);
+    REP(i,m) cin>>a[i];
+    int prev = 0;
+    int res = 1;
+    for(auto r: a){
+        res *= d[r-prev-1];
+        prev = r;
     }
-    cout<<"impossible\n";
+    if(prev<n) res *= d[n-prev];
+    cout<<res<<'\n';
     return 0;
 }
 
-int main() {
+int main(){
     FAST;
     solve();
     return 0;

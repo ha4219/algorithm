@@ -2,6 +2,7 @@
 
 typedef long long ll;
 
+
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
@@ -30,39 +31,68 @@ typedef long long ll;
 #define TC(t) while (t--)
 
 #define INF 1e9
-#define MAX 100
-#define MOD 1000000007
+#define MAX 100001
+#define ALLPATH 1023
+#define MOD 1000000000
 
 using namespace std;
 
-int n;
-int d[10] = {6,2,5,5,4,5,6,3,7,6};
 
-int cal(int val) {
-    return d[val/10] + d[val % 10];
-}
+int T, n;
+vector<ll> a;
 
 int solve() {
-    cin>>n;
-
-    for (int i=0;i<MAX;i++) {
-        for (int j=0;j<=i;j++) {
-            int res = 4;
-            res += cal(i);
-            res += cal(j);
-            res += cal(i - j);
-            if (res == n) {
-                cout<<j/10<<j%10<<'+'<<(i-j)/10<<(i-j)%10<<'='<<i/10<<i%10<<'\n';
-                return 0;
-            }
+    ll res = 0;
+    ll sub = 0;
+    REP(i, n){
+        sub += a[i];
+    }
+    sub*=2;
+    if(sub%n){
+        cout<<0<<'\n';
+        return 0;
+    }
+    int k = sub/n;
+    map<int, ll> m;
+    REP(i, n){
+        auto tmp = m.find(k-a[i]);
+        if(tmp==m.end()){
+            m.insert({k-a[i],1});
+        }else{
+            tmp->second++;
         }
     }
-    cout<<"impossible\n";
+    map<int, bool> v;
+    REP(i, n){
+        auto tmp = m.find(a[i]);
+        auto visit = v.find(a[i]);
+        if(visit!=v.end()){
+            continue;
+        }
+        if(tmp!=m.end()){
+            if(k-a[i]==a[i]){
+                res += (tmp->second*(tmp->second-1));
+            }else{
+                res += m.find(k-a[i])->second*tmp->second;
+            }
+        }
+        v.insert({a[i], 1});
+    }
+    res /= 2;
+    cout<<res<<'\n';
     return 0;
 }
 
-int main() {
+int main(){
     FAST;
-    solve();
+    cin>>T;
+    TC(T) {
+        cin>>n;
+        a.resize(n);
+        REP(i, n){
+            cin>>a[i];
+        }
+        solve();
+    }
     return 0;
 }

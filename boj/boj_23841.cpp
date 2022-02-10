@@ -30,38 +30,38 @@ typedef long long ll;
 #define TC(t) while (t--)
 
 #define INF 1e9
-#define MAX 100
+#define MAX 100001
 #define MOD 1000000007
 
 using namespace std;
 
-int n;
-int d[10] = {6,2,5,5,4,5,6,3,7,6};
+int n, m;
+string a[51];
 
-int cal(int val) {
-    return d[val/10] + d[val % 10];
-}
+int solve(){
+    cin>>n>>m;
+    int m2 = m/2;
+    for (int i=0;i<n;i++) {
+        cin>>a[i];
+    }
 
-int solve() {
-    cin>>n;
-
-    for (int i=0;i<MAX;i++) {
-        for (int j=0;j<=i;j++) {
-            int res = 4;
-            res += cal(i);
-            res += cal(j);
-            res += cal(i - j);
-            if (res == n) {
-                cout<<j/10<<j%10<<'+'<<(i-j)/10<<(i-j)%10<<'='<<i/10<<i%10<<'\n';
-                return 0;
+    for (int i=0;i<n;i++) {
+        for(int j=0;j<m2;j++) {
+            if (a[i][j] == '.') {
+                a[i][j] = a[i][m - j - 1];
+            } else {
+                a[i][m - j - 1] = a[i][j];
             }
         }
     }
-    cout<<"impossible\n";
+
+    for (int i=0;i<n;i++) {
+        cout<<a[i]<<'\n';
+    }
     return 0;
 }
 
-int main() {
+int main(){
     FAST;
     solve();
     return 0;
