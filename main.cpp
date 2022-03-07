@@ -35,24 +35,24 @@ typedef long long ll;
 
 using namespace std;
 
-int n, k;
+int n;
 
-vector<int> a;
+vector<PII> a;
 
 int solve() {
-    cin>>n>>k;
-    a.resize(n);
-    REP(i, n) {
-        cin>>a[i];
+    cin>>n;
+    REP(i, n){
+        cin>>a[i].fi;
+        cin>>a[i].se;
     }
 
-    int res = 0;
-    FORD(i, n-1, 0) {
-        int tmp = k / a[i];
-        k -= tmp * a[i];
-        res += tmp;
+    sort(ALL(a), [&](const PII l, const PII r){
+        return l.fi<r.fi;
+    });
+
+    REP(i, n){
+        cout<<a[i].fi<<" "<<a[i].se<<'\n';
     }
-    cout<<res<<'\n';
     return 0;
 }
 
