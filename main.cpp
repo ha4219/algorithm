@@ -38,82 +38,54 @@ typedef long long ll;
 
 using namespace std;
 
-int n, p;
+int n, m, k;
+vector<int> a;
+vector<int> b;
+vector<int> c;
+int d[101][1002][501];
 
-vector<int> arr;
-vector<int> s_min;
-vector<int> s_max;
-
-void u(int i, int v, int node, int nL, int nR) {
-    if (nL>i||i>nR) return;
-    if (nL==nR) {
-        s_min[node] = v;
-        s_max[node] = v;
-        return;
-    }
-    int m = (nL+nR) / 2;
-    u(i,v,node*2,nL,m);
-    u(i,v,node*2+1,m+1,nR);
-    s_min[node] = min(s_min[node*2], s_min[node*2+1]);
-    s_max[node] = max(s_max[node*2], s_max[node*2+1]);
-    return;
-}
-
-int q_min(int l, int r, int node, int nL, int nR) {
-    if (nL>r || nR < l) return MAXVALUE;
-    if (l<=nL && nR<=r) return s_min[node];
-    int m = (nL+nR)/2;
-    return min(q_min(l,r,node*2,nL,m), q_min(l,r,node*2+1,m+1,nR));
-}
-
-int q_max(int l, int r, int node, int nL, int nR) {
-    if (nL>r || nR < l) return MINVALUE;
-    if (l<=nL && nR<=r) return s_max[node];
-    int m = (nL+nR)/2;
-    return max(q_max(l,r,node*2,nL,m), q_max(l,r,node*2+1,m+1,nR));
-}
-
-int solve() {
-    cin>>n>>p;
-    arr.resize(n);
-    s_min.resize(4*n, MAXVALUE);
-    s_max.resize(4*n, MINVALUE);
-    for(int i=0;i<n;i++){
-        arr[i] = i;
-        u(i,i,1,0,n-1);
-    }
-
-    for(int i=0;i<p;i++){
-        int a,b,c;
-        cin>>a>>b>>c;
-        if (a) {
-            int l = q_min(b, c, 1, 0, n-1);
-            int r = q_max(b, c, 1, 0, n-1);
-
-            if (l==b && r==c) {
-                cout<<"YES\n";
-            } else {
-                cout<<"NO\n";
-            }
-        } else {
-            int l = arr[b];
-            int r = arr[c];
-            u(b, r, 1, 0, n-1);
-            u(c, l, 1, 0, n-1);
-            arr[b] = r;
-            arr[c] = l;
+int dfs(int idx, int cp, int memory, int priority){
+    int &res = d[idx][cp][priority];
+    // int &res = d[cp][priority];
+    if(res!=-1){
+        // return res;
+        return res<m ? MAX : res;
+		}
+    if(n==idx){
+        if(cp>=m&&memory>=k){
+            return priority;
+        }else{
+            return MAX;
         }
     }
+    // select or pass
+    res = min(dfs(idx+1, cp, memory, priority), dfs(idx+1,min(cp+a[idx], 1001), memory+b[idx], priority+c[idx]));
 
-    return 0;
+    return res;
+}
+
+int solve(){
+    cin>>n>>m>>k;
+    a.resize(n);
+    b.resize(n);
+    c.resize(n);
+    memset(d, -1, sizeof(d));
+    
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+        cin>>b[i];
+        cin>>c[i];
+    }
+    int res = dfs(0,0,0,0);
+    if (res>=501){
+        res = -1;
+    }
+    cout<<res<<endl;
+		return 0;
 }
 
 int main() {
     FAST;
-    int tc;
-    cin>>tc;
-    TC(tc) {
-        solve();
-    }
+		solve();
     return 0;
 }
