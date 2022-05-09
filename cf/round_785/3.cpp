@@ -38,7 +38,49 @@ typedef long long ll;
 
 using namespace std;
 
+vector<int> tmp;
+int d[N][M];
+
+int re(int n) {
+    int r = 0;
+    while (n > 0) {
+        r = r * 10 + n % 10;
+        n /= 10;
+    }
+    return r;
+}
+
+bool p(int n) {
+    return re(n) == n;
+}
+
 int solve() {
+    tmp.pb(0);
+    for(int i=1;i<N;i++){
+        if (p(i)) tmp.pb(i);
+    }
+    for(int i=1;i<M;i++){
+        d[0][i] = 1;
+    }
+
+    for(int i=1;i<N;i++){
+        d[i][0] = 0;
+        for(int j=1;j<M;j++){
+            if (tmp[j]<=i) {
+                d[i][j] = (d[i][j-1] + d[i-tmp[j]][j]) % MOD;
+            } else {
+                d[i][j] = d[i][j-1];
+            }
+        }
+    }
+
+    int t;
+    cin>>t;
+    for(int i=0;i<t;i++){
+        int n;
+        cin>>n;
+        cout<<d[n][M-1]<<'\n';
+    }
 
     return 0;
 }
