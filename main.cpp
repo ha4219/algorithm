@@ -45,6 +45,6 @@ int solve() {
 
 int main() {
     FAST;
-    solve();
+		solve();
     return 0;
 }
