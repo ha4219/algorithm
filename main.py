@@ -6,7 +6,7 @@ from collections import deque
 import random
 from itertools import combinations
 
-MAX = 200000
+MAX = 17
 MOD = 1000000007
 setrecursionlimit(10**5)
 input = stdin.readline
