@@ -39,15 +39,10 @@ typedef long long ll;
 using namespace std;
 
 int n, m;
-vector<int> a;
 
 int solve() {
-    cin >> n;
-    for (int i=0;i<n;i++) {
-        int tmp;
-        cin >> tmp;
-        a.pb(tmp);
-    }
+    cin >> n >> m;
+    cout << min(n/2, m) << '\n';
     return 0;
 }
 
