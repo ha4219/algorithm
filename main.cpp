@@ -38,61 +38,21 @@ typedef long long ll;
 
 using namespace std;
 
-char d;
-int n, m;
-vector<vector<int>> a;
-char l_map[] = {'0', '1', '5', '?', '?', '2', '?', '?', '8', '?'};
-char r_map[] = {'0', '1', '5', '?', '?', '2', '?', '?', '8', '?'};
-char d_map[] = {'0', '1', '5', '?', '?', '2', '?', '?', '8', '?'};
-char u_map[] = {'0', '1', '5', '?', '?', '2', '?', '?', '8', '?'};
+int n;
+vector<double> a;
 
 int solve() {
-    cin >> d >> n;
-    for (int i=0;i<n;i++) {
-        vector<int> tm;
-        for (int j=0;j<n;j++) {
-            int tmp;
-            cin >> tmp;
-            tm.pb(tmp);
-        }
-        a.pb(tm);
+    cin >> n;
+    double res = 0;
+    for(int i=0;i<n;i++) {
+        double tmp;
+        cin >> tmp;
+        a.pb(tmp);
     }
-    switch (d)
-    {
-    case 'L':
-        for(int i=0;i<n;i++) {
-            for(int j=n-1;j>-1;j--) {
-                cout<<l_map[a[i][j]]<<" ";
-            }
-            cout<<'\n';
-        }
-        break;
-    case 'R':
-        for(int i=0;i<n;i++) {
-            for(int j=n-1;j>-1;j--) {
-                cout<<r_map[a[i][j]]<<" ";
-            }
-            cout<<'\n';
-        }
-        break;
-    case 'U':
-        for(int i=n-1;i>-1;i--) {
-            for(int j=0;j<n;j++) {
-                cout<<u_map[a[i][j]]<<" ";
-            }
-            cout<<'\n';
-        }
-        break;
-    case 'D':
-        for(int i=n-1;i>-1;i--) {
-            for(int j=0;j<n;j++) {
-                cout<<d_map[a[i][j]]<<" ";
-            }
-            cout<<'\n';
-        }
-        break;
-    default:
-        break;
+
+    for(auto v: a) {
+        res = (double)1.0 - ((double)1.0 - res)*(double)(1.0 - v/100);
+        cout<<res * 100<<'\n';
     }
     return 0;
 }
