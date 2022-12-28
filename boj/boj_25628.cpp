@@ -33,42 +33,23 @@ typedef long long ll;
 #define MAX 1000000000
 #define MOD 1000000007
 
-#define N 100001
-#define M 101
+#define N 40001
+#define M 500
 
 using namespace std;
 
-int n;
+int n, m;
 
 int solve() {
-    cin>>n;
-    vector<int> a(n);
-    for(int i=0;i<n;i++){
-        cin>>a[i];
-    }
-    int mn = 0, mx=int(1e9);
-    for(int i=0;i+1<n;i++){
-        int x = a[i];
-        int y = a[i+1];
-        int midL = (x+y)/2;
-        int midR = (x+y+1)/2;
-        if (x<y)
-            mx = min(mx, midL);
-        if (x>y)
-            mn = max(mn, midR);
-    }
-    if (mn<=mx) cout<<mn<<'\n';
-    else cout<<-1<<'\n';
-    return 0;   
+    cin >> n >> m;
+    cout << min(n/2, m) << '\n';
+    return 0;
 }
 
 int main() {
     FAST;
-    int t;
-    cin>>t;
-    TC(t){
-        solve();
-    }
-    
+    // TC(t) {
+    solve();
+    // }
     return 0;
 }

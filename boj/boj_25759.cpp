@@ -39,36 +39,43 @@ typedef long long ll;
 using namespace std;
 
 int n;
+ll d[N][M] = {0,};
+bool v[N][M] = {0, };
 
 int solve() {
-    cin>>n;
-    vector<int> a(n);
-    for(int i=0;i<n;i++){
-        cin>>a[i];
+    cin >> n;
+
+    for(int i=0;i<n;i++) {
+        int val;
+        cin >> val;
+        
+        for(int j=1;j<M;j++) {
+            if (v[i][j]) {
+                v[i+1][val] = 1;
+                d[i+1][val] = max(d[i+1][val], d[i][j] + (j-val) * (j-val));
+
+                v[i+1][j] = 1;
+                d[i+1][j] = max(d[i][j], d[i+1][j]);
+            }
+        }
+
+        v[i+1][val] = 1;
     }
-    int mn = 0, mx=int(1e9);
-    for(int i=0;i+1<n;i++){
-        int x = a[i];
-        int y = a[i+1];
-        int midL = (x+y)/2;
-        int midR = (x+y+1)/2;
-        if (x<y)
-            mx = min(mx, midL);
-        if (x>y)
-            mn = max(mn, midR);
+
+    ll res = 0;
+    for(int i=0;i<M;i++) {
+        res = max(res, d[n][i]);
     }
-    if (mn<=mx) cout<<mn<<'\n';
-    else cout<<-1<<'\n';
-    return 0;   
+    
+    cout<<res<<'\n';
+
+    return 0;
 }
 
 int main() {
     FAST;
-    int t;
-    cin>>t;
-    TC(t){
-        solve();
-    }
-    
+    // TC(t) {
+    solve();
+    // }
     return 0;
 }
