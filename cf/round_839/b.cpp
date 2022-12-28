@@ -39,27 +39,35 @@ typedef long long ll;
 using namespace std;
 
 int n;
+vector<int> a;
+
+bool ff() {
+    if (a[0] >= a[1] || a[0] >= a[2] || a[1] >= a[3] || a[2] >= a[3]) return false;
+    return true;
+}
+
+int f() {
+    for(int i=0;i<4;i++) {
+        int lu = a[0];
+        int ru = a[1];
+        int ld = a[2];
+        int rd = a[3];
+        a[0] = ld;a[1] = lu;a[2] = rd;a[3]=ru;
+        if (ff()) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 int solve() {
-    cin>>n;
-    vector<int> a(n);
-    for(int i=0;i<n;i++){
+    a.resize(4);
+    for(int i=0;i<4;i++) {
         cin>>a[i];
     }
-    int mn = 0, mx=int(1e9);
-    for(int i=0;i+1<n;i++){
-        int x = a[i];
-        int y = a[i+1];
-        int midL = (x+y)/2;
-        int midR = (x+y+1)/2;
-        if (x<y)
-            mx = min(mx, midL);
-        if (x>y)
-            mn = max(mn, midR);
-    }
-    if (mn<=mx) cout<<mn<<'\n';
-    else cout<<-1<<'\n';
-    return 0;   
+    string res = (f()) ? "YES" : "NO";
+    cout<<res<<'\n';
+    return 0;
 }
 
 int main() {

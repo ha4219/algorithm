@@ -35,40 +35,37 @@ typedef long long ll;
 
 #define N 40001
 #define M 500
+#define C 26
 
 using namespace std;
 
-int n;
+int d[C][C];
 
 int solve() {
-    cin>>n;
-    vector<int> a(n);
-    for(int i=0;i<n;i++){
-        cin>>a[i];
+    int idx = 0;
+    for(int i=0;i<C;i++){
+        for(int j=0;j<C;j++){
+            if (i == j) {
+                continue;
+            }
+            d[i][j] = ++idx;
+        }
     }
-    int mn = 0, mx=int(1e9);
-    for(int i=0;i+1<n;i++){
-        int x = a[i];
-        int y = a[i+1];
-        int midL = (x+y)/2;
-        int midR = (x+y+1)/2;
-        if (x<y)
-            mx = min(mx, midL);
-        if (x>y)
-            mn = max(mn, midR);
+
+    int t;
+    cin>>t;
+    
+    TC(t) {
+        string s;
+        cin>>s;
+        cout<<d[(int)s[0]-'a'][(int)s[1]-'a']<<'\n';
     }
-    if (mn<=mx) cout<<mn<<'\n';
-    else cout<<-1<<'\n';
-    return 0;   
+
+    return 0;
 }
 
 int main() {
     FAST;
-    int t;
-    cin>>t;
-    TC(t){
-        solve();
-    }
-    
+    solve();
     return 0;
 }

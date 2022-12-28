@@ -38,37 +38,23 @@ typedef long long ll;
 
 using namespace std;
 
-int n;
-
 int solve() {
-    cin>>n;
-    vector<int> a(n);
-    for(int i=0;i<n;i++){
-        cin>>a[i];
+    int x, y;
+    cin>>x>>y;
+    if (y%x || x > y) {
+        cout<<0<<" "<<0<<'\n';
+        return 0;
     }
-    int mn = 0, mx=int(1e9);
-    for(int i=0;i+1<n;i++){
-        int x = a[i];
-        int y = a[i+1];
-        int midL = (x+y)/2;
-        int midR = (x+y+1)/2;
-        if (x<y)
-            mx = min(mx, midL);
-        if (x>y)
-            mn = max(mn, midR);
-    }
-    if (mn<=mx) cout<<mn<<'\n';
-    else cout<<-1<<'\n';
-    return 0;   
+    cout<<1<<" "<<y/x<<'\n';
+    return 0;
 }
 
 int main() {
     FAST;
     int t;
     cin>>t;
-    TC(t){
+    TC(t) {
         solve();
     }
-    
     return 0;
 }
