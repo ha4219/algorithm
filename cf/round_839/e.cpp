@@ -5,7 +5,6 @@ typedef long long ll;
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
-#define PLL pair<ll,ll>
 #define FOR(a, b, c) for (int(a) = (b); (a) < (c); ++(a))
 #define FORN(a, b, c) for (int(a) = (b); (a) <= (c); ++(a))
 #define FORD(a, b, c) for (int(a) = (b); (a) >= (c); --(a))
@@ -31,7 +30,7 @@ typedef long long ll;
 #define TC(t) while (t--)
 
 #define INF 1e9
-#define MAX 100001
+#define MAX 1000000000
 #define MOD 1000000007
 
 #define N 100001
@@ -41,56 +40,39 @@ using namespace std;
 
 int n;
 
-PLL get_max(int t) {
-    if (t == 0) return {0,0};
-    ll day = t - (t / 7) * 2;
-
-    if (t - (t/7)*7 == 6) {
-        day--;
-    } else if(t - (t/7)*7 == 0) {
-        day -= 2;
-    }
-
-    return {day, t};
-}
-
 int solve() {
     cin>>n;
-    vector<PII> a(n);
-    
-    for (int i=0;i<n;i++) {
-        int l, r;
-        cin>>l>>r;
-
-        a[i] = {l, r};
+    vector<int> a(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
     }
+    int r = 0; int b = 0; int y = 0;
 
-    sort(a.begin(), a.end());
-
-    int t = 0;
-    PLL md = {-1, -1};
-    int res = 0;
-    int residual = 0;
     for(int i=0;i<n;i++) {
-        t += a[i].se;
-        md = get_max(a[i].fi);
-        cout<<md.fi<<" "<<md.se<<'\n';
-        if (t > md.fi + md.se) {
-            cout<<"-1\n";
-            return 0;
+        if (a[i] != i + 1 && a[i] != n - i) {
+            y++;
+        } else if (a[i] != i + 1) {
+            r++;
+        } else if (a[i] != n - i) {
+            b++;
         }
-        res += t - md.fi - residual;
-        residual -= md.fi - t;
-        
     }
-    cout<<res<<'\n';
+    if (r + y <= b) {
+        cout<<"First\n";
+    } else if (b + y < r) {
+        cout<<"Second\n";
+    } else {
+        cout<<"Tie\n";
+    }
+    // cout << r << b << y <<'\n';
+
     return 0;
 }
 
 int main() {
     FAST;
-    int t = 1;
-    // cin>>t;
+    int t;
+    cin>>t;
     TC(t){
         solve();
     }
