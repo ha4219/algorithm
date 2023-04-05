@@ -12,56 +12,27 @@ MOD = 1000000007
 setrecursionlimit(10**6)
 input = stdin.readline
 
-N, M = map(int, input().split())
-s = input().strip()
+N = int(input())
+A = list(map(int, input().split()))
 
-# dist list create  O(n) 어케하냐 ㅋㅋ
-# dist 로 sort O(nlogn)
-# m 번 반복?
-# 재구성 O(n)
+# odd - odd = even
+# even - even = even
+# odd - even = odd
+# evenv - odd = odd
 
 def main():
-    d = [] # [(dist: 이전 X와의 거리, index)]
-    l = 0
-    t = 0
-    for i, c in enumerate(s, 1):
-        if c=='.':
-            d.append((i - l, i))
-            t += 1
-        else:
-            l = i
-            d.append((maxsize, i))
-    if l == 0: # X가 없음.
-        print(N)
-        return
-    d = sorted(d, key=lambda x:x[0])
-    m = M
-    ret = [] # (dist, index, is_dot)
-    for (dist, i) in d:
-        tmp = dist
-        is_dot = dist != maxsize
-        if dist <= m:
-            m -= dist
-            tmp = maxsize
-        ret.append((tmp, i, is_dot))
-    ret = sorted(ret, key=lambda x:x[1])
-    res = 0
-    i = 0
-    while i < N:
-        d, idx, is_dot = ret[i]
-        print(d, idx, is_dot)
-        if not is_dot:
-            for j in range(idx+1, N):
-                if ret[j-1][0] == maxsize:
-                    break
-            i = j
-            res += 2
-            continue
-        res += 1
-        i += 1
+    odd = []; even = []
+    for i, v in enumerate(A): # O(n)
+        if v & 1: odd.append((v, i))
+        else: even.append((v, i))
+    
+    odd = sorted(odd, key=lambda x:x[0]) # O(nlogn)
+    even = sorted(even, key=lambda x:x[0]) # O(nlogn)
 
-
-    print(res)
+    # odd - odd
+    for v, i in odd:
+        idx = bisect_left(odd, v)
+        
 
     return
 
