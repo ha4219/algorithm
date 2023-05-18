@@ -1,11 +1,13 @@
 #include<bits/stdc++.h>
 
+
 typedef long long ll;
 
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define PII pair<int,int>
 #define PIII pair<PII,int>
 #define PLL pair<ll,ll>
+#define PLLL pair<PLL, ll>
 #define FOR(a, b, c) for (int(a) = (b); (a) < (c); ++(a))
 #define FORN(a, b, c) for (int(a) = (b); (a) <= (c); ++(a))
 #define FORD(a, b, c) for (int(a) = (b); (a) >= (c); --(a))
@@ -34,63 +36,50 @@ typedef long long ll;
 #define MAX 100001
 #define MOD 1000000007
 
-#define N 200001
+#define N 2501
 #define M 101
 
 using namespace std;
 
 int n;
-int d1[N], d2[N], d3[N];
-int qs[3];
-vector<int> a[N];
-set<int> leaf;
-
-void dfs(int cur, int depth, int d[]) {
-	if (a[cur].size() == 1) {
-		leaf.insert(cur);
-	}
-	for (auto nn : a[cur]) {
-		if (d[nn] > depth + 1) {
-			d[nn] = depth + 1;
-			dfs(nn, depth + 1, d);
-		}
-	}
-}
+vector<int> a;
 
 void input() {
 	cin >> n;
-	for (int i = 0; i < n - 1; i++) {
-		int l, r;
-		cin >> l >> r;
-		l--;
-		r--;
-		a[l].push_back(r);
-		a[r].push_back(l);
+	for(int i=0;i<n;i++){
+		int t;cin>>t;a.pb(t);
 	}
-	for (int i = 0; i < 3; i++) {
-		cin >> qs[i];
-		qs[i]--;
+}
+
+int ccw(PLL p1, PLL p2, PLL p3) {
+	ll res = p2.fi * p3.se - p3.fi * p2.se - p1.fi * p3.se + p3.fi * p1.se + p1.fi * p2.se - p2.fi * p1.se;
+	return res > 0 ? 1 : res < 0 ? -1 : 0;
+}
+
+bool check(int l, int r) {
+	PLL p0 = {ll(l), a[l]}, p1 = {ll(r), a[r]};
+	for(int i=0;i<n;i++) {
+		PLL p2 = {ll(i), 0LL}, p3 = {ll(i), a[i]};
+		int l = ccw(p0, p1, p2) * ccw(p0, p1, p3);
+		int r = ccw(p2, p3, p0) * ccw(p2, p3, p1);
+		if (l<0&&r<0) return false;
 	}
+	return true;
 }
 
 int solve() {
 	input();
-	fill_n(d1, n, MAX);
-	fill_n(d2, n, MAX);
-	fill_n(d3, n, MAX);
-	d1[qs[0]] = 0;
-	dfs(qs[0], 0, d1);
-	d2[qs[1]] = 0;
-	dfs(qs[1], 0, d2);
-	d3[qs[2]] = 0;
-	dfs(qs[2], 0, d3);
-	for (auto q : leaf) {
-		if (d1[q] < d2[q] && d1[q] < d3[q]) {
-			cout << "YES\n";
-			return 0;
+	vector<int> res; 
+	for(int i=0;i<n;i++) {
+		int m = 0;
+		for(int j=0;j<n;j++){
+			if (check(i, j)) {
+				m++;
+			}
 		}
+		res.pb(m);
 	}
-	cout << "NO\n";
+	cout<<*max_element(res.begin(), res.end())<<'\n';
 	return 0;
 }
 
