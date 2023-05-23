@@ -36,81 +36,26 @@ typedef long long ll;
 #define MAX 250000001
 #define MOD 1000000007
 
-#define N 6
+#define N 501
 #define M 101
 
 using namespace std;
 
 int n, m;
-string s[N];
-bool v[21];
-string tmp[N];
-// int tmp[N-1];
-
+string s;
 
 void input() {
-	cin>>m>>n;
-	for(int i=0;i<n;i++){
-		cin>>s[i];
-	}
+	cin>>s;
 	return;
 }
 
-bool check() {
-	// cout<<"***************\n";
-	// for(int i=0;i<m;i++) {
-	// 	int idx = tmp[i];
-	// 	cout<<s[idx]<<'\n';
-	// }
-	// cout<<"***************\n";
-	// for(int i=0;i<m;i++){
-	// 	int x = tmp[i];
-	// 	for(int j=0;j<m;j++) {
-	// 		int y = tmp[j];
-	// 		cout<<x<<" "<<y<<'\n';
-	// 		cout<<s[x][y]<<" "<<s[y][x]<<'\n';
-	// 		if (s[x][y] != s[y][x]) {
-	// 			return false;
-	// 		}
-	// 	}
-	// }
-	for(int i=0;i<m;i++){
-		for(int j=0;j<m;j++) {
-			if (tmp[i][j] != tmp[j][i]) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-void dfs(int c) {
-	if (c == N - 1) {
-		// cout<<tmp.size()<<'\n';
-		if (check()) {
-			for(int i=0;i<m;i++) {
-				cout<<tmp[i]<<'\n';
-			}
-			exit(0);
-		}
-	}
-	for(int i=0;i<n;i++) {
-		if(v[i]) continue;
-		// tmp.push_back(s[i]);
-		tmp[c] = s[i];
-		v[i] = true;
-		dfs(c + 1);
-		v[i] = false;
-	}
-}
 
 int solve() {
-	// sort string -> fast in dictionary order :O(nlogn)
-	sort(s, s+n);
-	dfs(0);
-	cout<<"NONE\n";
-	// _nP_5
-
+	if(s.compare("N") == 0 || s.compare("n") == 0) {
+		cout<< "Naver D2\n";
+	} else {
+		cout<< "Naver Whale\n";
+	}
 	return 0;
 }
 
