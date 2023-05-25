@@ -45,8 +45,6 @@ int n, m;
 string s[N];
 bool v[21];
 string tmp[N];
-// int tmp[N-1];
-
 
 void input() {
 	cin>>m>>n;
@@ -57,23 +55,6 @@ void input() {
 }
 
 bool check() {
-	// cout<<"***************\n";
-	// for(int i=0;i<m;i++) {
-	// 	int idx = tmp[i];
-	// 	cout<<s[idx]<<'\n';
-	// }
-	// cout<<"***************\n";
-	// for(int i=0;i<m;i++){
-	// 	int x = tmp[i];
-	// 	for(int j=0;j<m;j++) {
-	// 		int y = tmp[j];
-	// 		cout<<x<<" "<<y<<'\n';
-	// 		cout<<s[x][y]<<" "<<s[y][x]<<'\n';
-	// 		if (s[x][y] != s[y][x]) {
-	// 			return false;
-	// 		}
-	// 	}
-	// }
 	for(int i=0;i<m;i++){
 		for(int j=0;j<m;j++) {
 			if (tmp[i][j] != tmp[j][i]) {
@@ -86,7 +67,6 @@ bool check() {
 
 void dfs(int c) {
 	if (c == N - 1) {
-		// cout<<tmp.size()<<'\n';
 		if (check()) {
 			for(int i=0;i<m;i++) {
 				cout<<tmp[i]<<'\n';
@@ -96,7 +76,6 @@ void dfs(int c) {
 	}
 	for(int i=0;i<n;i++) {
 		if(v[i]) continue;
-		// tmp.push_back(s[i]);
 		tmp[c] = s[i];
 		v[i] = true;
 		dfs(c + 1);
